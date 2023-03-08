@@ -266,6 +266,88 @@ La TM deve accettare l'input quando esso contiene 101 e rifiutare altrimenti.\\
 \end{tikzpicture}
 
 
+
+\section{Linguaggi sono non numerabili}
+Sia $S_{\sum}$ l'insieme di tutti i linguaggi sull'alfabeto finito $\sum$.
+\begin{theorem}
+L;insieme $S_{\sum}$ non \`e numerabile.
+\end{theorem}
+\begin{proof}
+Ricorda che un linguaggio L \`e un sottoinsieme di $\sum^*$. Abbiamo gi\`a visto che $\sum^*$ \`e infinito numerabile, quindi possiamo scriverlo come $\sum^* = \{\sigma_1, \sigma_2,\sigma_3,...\}$. Allora un linguaggio, diciamo $L_1 = \{\sigma_1,\sigma_4\}$, pu\`o essere rappresentato come una riga in una tabella:\\
+\begin{center}
+\includegraphics[scale=0.5]{tabella_linguaggi.png}
+
+\end{center}
+\end{proof}
+Ciascun linguaggio su $\sum$ pu\`o essere rappresentato in questo modo. Per contaddizione, assumi che $S_{\sum}$ sia un insieme numerabile. Allora possiamo assegnare un numero naturale ai suoi elementi, cos\`i che ogni $L_i \in S_{\sum}$ appare come riga a destra.\\ \begin{center}
+\includegraphics[scale=0.5]{tabella_linguaggi2.png}
+\end{center}
+Davvero ogni elemento $L$ di $S_{\sum}$ compare su una riga?\\
+Definisci $L$ come $00110...$, allora $\sigma_i \in L \iff \sigma_i \notin L_i$. Quindi $L$ \`e diverso da ogni linguaggio $L_i$ sulla riga. Dunque $L$ non pu\`o essere in una riga! \textbf{Contraddizione}.\\ Quindi, $S_{\sum}$ non \`e numerabile.\\ \begin{center}
+ \includegraphics[scale=0.5]{tabella_linguaggi3.png}
+\end{center}
+\subsection{Riassumendo}
+Dato un alfabeto finito $\sum$, abbiamo visto che:
+\begin{enumerate}
+\item l'insieme di linguaggi riconoscibili da una TM \`e infinito numerabile.
+\item l'insieme di tutti i linguaggi \`e non-numerabile.
+\end{enumerate}
+Quindi, esistono limguaggi che non sono riconoscibili da alcuna TM, ad esempio $HALT^{-}, EQ, EQ^{-}$.\\
+\subsubsection{Quanti linguaggi non riconoscibili ci sono?}
+La risposta deriva da un  un risultato generale.
+\begin{theorem}
+\label{th:3}
+Se $S$ \`e un insieme infinito, non-numerabile e $S'$ \`e un sottoinsieme infinito numerabile di S, allora $S \backslash S'$ non \`e un inifinito numerabile.
+\end{theorem}
+\begin{proof}
+Assumi $S \backslash S'$ sia infinito numerabile. Allora, poich\`e i linguaggi infiniti numerabili sono chiusi per unione, $(S \backslash S') \cup S' = S$ \`e numerabile. Contraddizione!
+\end{proof}
+Dal \ref{th:3} otteniamo il seguente corollario.
+\begin{corollary}
+L'insieme di linguaggi non riconoscibili non \`e infinito numerabile, allora ci sono pi\`u linguaggi non riconoscibili che riconoscibili.
+\end{corollary}
+
+
+\section{Teorema di Rice}
+Abbiamo visto che non possiamo decidere se una TM: \begin{enumerate}
+\item ferma su un dato input
+\item ferma su input vuoto (stringa vuota)
+\item \`e equivalente a un\`altra TM.
+\end{enumerate}
+Allora, quali problemi riguardanti le TM sono decidibili?
+Per esempio: \begin{enumerate}
+\item possimo verificare quanti stati ha una macchina, e desumere quanti stati ha
+\item se va mai a dx o a sx
+\end{enumerate}
+Cos'altro?
+\subsection{ripasso: linguaggi}
+Una \textbf{propriet\`a di linguaggio} P \`e una funzione da un insieme di TM a ${0,1}$ (falso/vero), tale che $L_M = L_{M'}$ implica P($M$) = P($M'$).
+Questo assicura che P dipenda solo dal linguaggio descritto dalla macchina. Per esempio: "ferma in 42 step" non \`e propriet\`a del linguaggio.
+Questa propriet\`a \`e \textbf{non-triviale} se esiste una TM $M$ tale che P($M$) - 1 e una TM $M'$ tale che P($M'$)=0. Formalmente, identificheremo le TM che soddisfano la propriet\`a P con l\`insieme: \begin{center}
+$\{y \in \sum^* | y=code(M)\ e\ P(M)=1\}$
+\end{center} 
+\subsection{Teorema di Rice}
+\begin{theorem}
+Se P \`e una propriet\`a di lunguaggio non triviale, allora il problema "M ha propriet\`a P" \`e indecidibile.
+\end{theorem}
+\begin{proof}
+Per contraddizione  dimostraiamo che se "$M$ ha propriet\`a P" fosse decidibile, allora il problema della fermata sarebbe decidibile.\\
+Considera una prpriet\`a P. Assumiamo P($M_{\emptyset}$) = 0. ($M_{\emptyset}$ \`e una TM che riconosce il linuaggio vuoto.) Poich\`e P \`e non-triviale, possiamo considerare una TM $M_P$ tale che P($M_P$) = 1. Fissiamo $M$ e x come parametri e costruiamo la seguente TM $M_{M,x}$:\\
+\includegraphics[scale=0.5]{TM_RICE1.png}\\
+\includegraphics[scale=0.45]{RICE2.png}\\
+Se potessimo decidere se $M_{M,x}$ ha la propriet\`a P, potremmo decidere il problema della fermata. Allora, $\{y|y=code(M) e P(M)=1\}$ \`e indecidibile.\\
+Abbiamo assunto P($M_{\emptyset}$)=0. Se P($M_{\emptyset}$)=1? In questo caso, ripetiamo lo stesso argomento, ma per la propriet\`a $\neg P$ ("$M$ non ha la propriet\`a P"). Osserva che questo funziona perch\`e: \begin{enumerate}
+\item dato che P \`e non-triviale, anche $\neg P$ \`e non-triviale.
+\item dato che P($M_{\emptyset}$) = 1, allora $\neg P(M_{\emptyset}) = 1\}$ \`e indecidibile.
+\end{enumerate}
+Concludiamo che $\{y|y=code(M) \land \neg P(M) = 1\}$ \`e indecidibile. Questo implica che anche $\{y | y=code(M) \land P(M)=1\}$ sia indecidibile.
+\end{proof}
+NB: lo schema di dimostrazione \`e:
+\begin{itemize}
+\item Devo dimostrare $A \iff B$
+\item Dimostriamo $A \Rightarrow B \land \neg A \Rightarrow \neg B$
+\item Che equivale a $A \Rightarrow B \land B \Rightarrow A$
+\end{itemize}
 \end{document}
 
 

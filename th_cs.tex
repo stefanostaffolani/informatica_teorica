@@ -3,6 +3,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{wrapfig}
 \usepackage{titlesec}
 \usepackage{geometry}
@@ -37,7 +38,7 @@ Una macchina di Turing \`e una tupla $\langle \sum, Q,q_0,H,\delta\rangle$. Dove
 \item $Q$ \`e un insieme finito di \textbf{stati}.
 \item $q_0 \in Q$ \`e lo stato iniziale.
 \item $H \subset Q$ \`e l'insieme degli \textbf{stati accettanti (o finali)}.
-\item $\delta$ \`e la funzione di transizione $\delta: (Q \backslash H) \times \sum \rightarrow Q \times \sum \{ \rightarrow, \leftarrow \} $
+\item $\delta$ \`e la funzione di transizione $\delta: (Q \backslash H) \times \sum \rightarrow Q \times \sum \times \{ \rightarrow, \leftarrow \} $
 \end{enumerate}
 $\delta$ esprime il programma che governa il funzionamento della TM, ed \`e una funzione totale. Possimao scrivere la definizione di $\delta$ come un insieme di quintuple.
 \subsection{Espressivit\`a delle macchine di Turing}
@@ -45,20 +46,78 @@ Molto spesso un problema che vogliamo risolvere usando uno strumento di calcolo 
 \item Dato un grafo, \`e strettamente connesso?
 \item Dato un insieme di equazioni, ha una soluzione?
 \end{itemize}
+\textbf{Come fare tutto ci\`o con delle macchine di Turing?}\\
+Abbiamo visto che le TM possono calcolare funzioni di tipo $\mathbb{N}^{k} \rightarrow \mathbb{N}$, il passaggio chiave \`e codificare un probleman di decisione come la $funzione\ caratteristica$ di un $linguaggio\ formale$.
+\subsection{Linguaggi formali: ripasso}
+Dato un alfabeto $\sum$ di simboli, un \textbf{linguaggio formale} \`e un sottoinsieme di $\sum^{*}$. Ad esempio:
+\begin{itemize}
+\item Alfabeto $\sum\ =\ \{1\}$
+\item Linguaggio delle stringhe di lughezza pari: $L\ =\ \{\epsilon, 11,1111,...\}$
+\end{itemize}
+La \textbf{funzione caratteristica} di un linguaggio $L$ \`e la funzione \begin{center}
+\begin{equation}
+\chi_{L}(X) =
+	\begin{cases}
+		1, & \text{if}\ x \in L \\
+      	0, & \text{otherwise}
+	\end{cases}
+\end{equation}
+%$chi_{L}(X)= \Biggl\{ \Biggr\}$
+\end{center}
+\subsection{Dai problemi di decisione ai linguaggi formali}
+Il nostro schema di codifica deve essere tale che dato $\alpha$ (dati del problema di decisione) otteniamo $code(\alpha) \in \sum^{*}$. Il linguaggio che codifica il \textbf{problema di decisione} sar\`a:
+\begin{center}
+$L\ =\ \{x \in \sum^{*} | x=code(\alpha)\ per\ qualche\  \alpha \land \alpha \in pos(P) \}$\\
+Dove $pos(P)$ sono le istanze positive del problema P (dati per i quali la risposta \`e si).
+\end{center}
+Le propriet\`a\footnote{Quando si guarda alla complessità computazionale, altre proprietà
+diventano rilevanti: ad esempio quando la codifica é ridondante e calcolata
+in modo efficiente.} che solitamente vogliamo per $code(-)$ sono:
+\begin{enumerate}
+\item $\alpha \neq \beta \implies\ code(\alpha) \neq code(\beta) $;
+\item Dovremmo poter verificare se $x \in \sum^{*}$ \`e $code(\alpha)$ per qualche $\alpha$;
+\item Dovremmo poter calcolare $\alpha$ a partire da $code(\alpha)$.
+\end{enumerate}
+\subsection{Linguaggi decidibili}
+\begin{center}
+\textbf{Come facciamo a ragionare su un problema di decisione utilizzando una macchina di Turing?}
+\end{center}
+Assumiamo una codifica del problema di decisione come un linguaggio $L$ su un alfabeto $\sum'$. Vogliamo una Tm $M$ con le seguenti propriet\`a: \begin{enumerate}
+\item l'alfabeto di input/output $\sum_{I}$ \`e $\sum'$.
+\item l'insieme degli stati finali \`e $H\ =\ \{Y,N\}$.
+\end{enumerate}
+Diciamo che $M$ \textbf{accetta} un input $x \in \sum_{I}^{*}$ se la computazione ferma in stato $Y$. $M$ \textbf{rigetta} x se ferma in stato $N$.\\
+$M$ \textbf{decide} $L$ se:
+\begin{itemize}
+\item $x \in L \implies\ M\ accetta\ x.$
+\item $x \notin L \implies\ M\ rigetta\ x.$
+\end{itemize}
+Un linguaggio (un problema di decisione) \`e \textbf{decidibile} se c'\`e una TM che lo decide.
+\subsection{Linguaggi riconoscibili}
+Assumiamo una codifica del problema di decisione come un linguaggio $L$ su un alfabeto $\sum'$. Vogliamo una TM con alfabeto di input/output $\sum'$.\\
+$M$ \textbf{riconosce} $L$ se:
+\begin{itemize}
+\item $x \in L \implies\ M\ si\ ferma$(= raggiunge uno stato finale).
+\item $x \notin L \implies\ M\ non\ si\ ferma$(= entra in un ciclo).
+\end{itemize}
+Un linguaggio (un problema di decisione) \`e \textbf{riconoscibile} se c'\`e una TM che lo riconosce.\\
+\begin{center}
+$Decidibile \implies Riconoscibile$
+\end{center}
 \section{WHILE un linguaggio di programmazione di alto livello	}
 Turing-completo: quando il suo potere espressivo e' equivalente ad una macchina di Turing. 
 Quindi quando qualcuno scrive un nuovo linguaggio deve preoccuparsi del fatto che esso sia Turing-complete.
 Non tutti i linguaggi sono Turning-Completi. Ad esempio i domain specific language.
 Sintassi in maniera informale:
 \begin{enumerate}
-\item 1) assegnazione di variabili X:=3
-\item 2) cicli while   while X!=Y do Program
-\item 3) sequenziamento di programmi  program1; program2; program3
-\item 4) altri costrutti come it-then-else possono essere definiti a partire da questi primitivi.
-\end{enumerate}  1) assegnazione di variabili X:=3
-NB: NON ci sono side-effects(tipo print(42))
+\item 1) assegnazione di variabili $X:=3$
+\item 2) cicli while   while $X \neq Y$ do Program
+\item 3) sequenziamento di programmi  $program1; program2; program3$
+\item 4) altri costrutti come $if-then-else$ possono essere definiti a partire da questi primitivi.
+\end{enumerate}  1) assegnazione di variabili $X:=3$
+NB: NON ci sono $side-effects$(tipo print(42))
 \subsection{Semantica}
-Un programma WHILE calcola una funzione paziale da \(N^{K} -> N^{K} \) 
+Un programma WHILE calcola una funzione paziale da $\mathbb{N}^{k} \rightarrow \mathbb{N}$ 
 \subsection{Equivalenza}
 \begin{theorem}
 Una funzione (parziale ) é computabile da un programma WHILE se e solo se é computabile da una macchina di Turing.
@@ -210,7 +269,7 @@ HALT \`e riconoscibile ma il suo complemento non \`e riconoscibile.
 \subsection{Osservazione 2. Ridurre un problema ad un altro}
 La nostra dimostrazione del fatto che $HALT^{-}$ non sia riconoscibile ha la seguente struttura:
 \begin{center}
-Se potessimo riconoscere L, allora potremmo decidere L'. Poich\`e non \`e decidibile, allora non possiamo riconoscere L.
+Se potessimo riconoscere L, allora potremmo decidere L'.\\ Poich\`e non \`e decidibile, allora non possiamo riconoscere L.
 \end{center}
 Come ridurre L a L'? Vedremo come questa intuizione possa essere formalizzata in una tecnica di dimostrazione, che ci permette di ridurre problemi tra di loro al fine di dimostrarne la non calcolabilit\`a.
 \section{esercitazione 1 Marzo 2023}

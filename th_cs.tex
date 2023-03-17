@@ -20,7 +20,7 @@
 \titleformat*{\section}{\Large}
 \geometry{a4paper, top=2cm, bottom=2cm, left=2.5cm, right=2.5cm,  heightrounded, bindingoffset=5mm}
 \title{Informatica Teorica}
-\author{Stefano Staffolani, Filippo Speziali}
+\author{Stefano Staffolani}
 \date{ Anno accademico 2022-2023}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -407,6 +407,93 @@ NB: lo schema di dimostrazione \`e:
 \item Dimostriamo $A \Rightarrow B \land \neg A \Rightarrow \neg B$
 \item Che equivale a $A \Rightarrow B \land B \Rightarrow A$
 \end{itemize}
+
+\section{Mapping-reduction}
+Abbiamo dimostrato che 
+\begin{enumerate}
+\item il problema della fermata ($HALT$) \`e indecidibile.
+\item Il complemento del problema della fermata ($HALT^{-}$) non \`e riconoscibile. Questo pu\`o essere dimostrato come conseguenza del punto 1.
+\end{enumerate}
+Introduciamo dunque una tecnoca semplice e generale per dimostrare l'indecidibilit\`a/non-riconoscibilit\`a di un problema: \textbf{mapping-reduction}.\\
+Questa tecnica ci consente di $ridurre$ le istanze di un problema a quelle di un altro problema. Nel confrontare due problemi la \textbf{decidibilit\`a/riconoscibilit\`a non \`e essenziale nel processo di prova}. Pu\`o essere derivata come una conseguenza.
+\subsection{Perch\`e}
+\includegraphics[scale=0.5]{mapred1.png}\\
+Rispetto ad un tentativo di investigare la calcolabilit\`a di $L$ o $L'$, questo approccio \`e maggiormente strutturato: ci consentriamo sulla relazione dei problemi.
+\subsection{Definizione}
+Siano $L$ e $L'$ linguaggi sull'alfabeto $\sum$, diciamo che $L'$ \`e $mapping-riducibile$ a $L$, scritto $L' \leq L$, se esiste una TM che computa la funzione (totale) $f: \sum^* \rightarrow \sum*$ tale che 
+\begin{center}
+$x \in L' \iff f(x) \in L$
+\end{center}
+Sostanzialmente, $f$ converte il problema di appartenenza per $L'$ nel problema di appartenenza per $L$. Intutivamente $L' \leq L$: $L$ \`e difficile almeno quanto $L'$.
+\subsection{Riduzione e Decidibilit\`a}
+La mapping-reducibility non parla di decidibilit\`a. \`E per\`o uno strumento efficace per mostrare che un linguaggio \`e (in)decidibile.
+\begin{theorem}
+\label{th:4}
+Se $L' \leq L$ e $L$ \`e decidibile, allora $L'$ \`e decidibile.
+\end{theorem}
+\begin{corollary}
+Da \ref{th:4} se $L' \leq L$ e $L'$ \`e indecidibile, allora $L$ \`e indecidibile. Quindi, per dimostrare che $L$ \`e indecidibile, \`e sufficiente mostrare che $HALT \leq L$.
+\end{corollary}
+\begin{corollary}
+Da \ref{th:4} se $L$ \`e decidibile e $L'$ non lo \`e, allora $L' \nleq L$.
+\end{corollary}
+\subsection{Mapping-reduction in azione: ETH}
+Il problema della fermata su nastro vuoto ($ETH$) \`e definito dal linguaggio:
+\begin{center}
+$ETH = \{x \in \sum^* | x = code(M) \land M ferma\ su\ \epsilon\}$
+\end{center}
+\begin{theorem}
+\label{th:5}
+ETH \`e indecidibile.
+\end{theorem}
+Idea della dimostrazione: ridurre $HALT$ a $ETH$, cos\`i che l'indecibilit\`a di $HALT$ implichi quella di $ETH$, grazie a \ref{th:4}.
+\begin{proof}
+Costruiamo una funzione computabile $f$ tale che:
+\begin{center}
+$\langle y,x \rangle \in HALT \iff f(\langle y,x \rangle) \in ETH$
+\end{center}
+La definizione di $f$ \`e come segue. Su argomento $\langle y,x \rangle$:
+\begin{itemize}
+\item Se $\forall M.y \neq code(M)$ allora $f(\langle y,x \rangle) = y \neq ETH$.
+\item Se $y=code(M)$, allora $f(\langle y,x \rangle) = code(M_{M,x})$ \`e costruita come segue:
+\begin{enumerate}
+\item $M_{M,x}$ entra in loop su oni stringa non vuota ($\neq \epsilon$).
+\item su input $\epsilon$, scrive $x$ sul nastro e simula $M$ su $x$.\\
+\end{enumerate}
+\includegraphics[scale=0.4]{ETH1.png}
+\end{itemize}
+\end{proof}
+\subsection{Il full language problem}
+Il "full language" problem ($FL$) \`e definito dal linguaggio seguente:
+\begin{center}
+$FL = \{x \in \sum^* | x=code(M) \land M ferma\ su\ ogni\ input\}$
+\end{center}
+\begin{theorem}
+$FL$ \`e indecidibile.
+\end{theorem}
+Schema della dimostrazione: Riduciamo $HALT$ a $FL$.
+\begin{proof}
+Costruiamo una funzione $f$ computabile tale che: 
+\begin{center}
+$\langle y,x \rangle \in HALT \iff f(\langle y,x \rangle) \in FL$
+\end{center}
+Definiamo $f$ come segue. Su argomento $\langle y,x \rangle$:
+\begin{itemize}
+\item Se $\forall M.y \neq code(M)$, allora $f(\langle y,x \rangle) = y \in FL$.
+\item Se $y =code(M)$, allora $f(\langle y,x \rangle) = code(M_{M,x})$, dove $M_{M,x}$ \`e costruita come segue:
+\begin{enumerate}
+\item $M_{M,x}$ cancella il suo input.
+\item scrive $x$ sul nastro e simula $M$ su $x$.
+\end{enumerate}
+\end{itemize}
+\includegraphics[scale=0.45]{FL1.png}\\
+\end{proof}
+\subsection{L'equivalence problem}
+L'\textbf{equivalence problem} (EQ) per le TM \`e definito dal seguente linguaggio:
+\begin{center}
+$EQ = \{\langle y,x \rangle \in \sum^{*}\times\sum^{*} | x=code(M),y=code(M') \land f_{M} = f_{M'}\}$\\
+Ovvero $M$ e $M'$ computano la stessa funzione parziale.
+\end{center}
 \end{document}
 
 

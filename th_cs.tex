@@ -324,90 +324,6 @@ La TM deve accettare l'input quando esso contiene 101 e rifiutare altrimenti.\\
 
 \end{tikzpicture}
 
-
-
-\section{Linguaggi sono non numerabili}
-Sia $S_{\sum}$ l'insieme di tutti i linguaggi sull'alfabeto finito $\sum$.
-\begin{theorem}
-L;insieme $S_{\sum}$ non \`e numerabile.
-\end{theorem}
-\begin{proof}
-Ricorda che un linguaggio L \`e un sottoinsieme di $\sum^*$. Abbiamo gi\`a visto che $\sum^*$ \`e infinito numerabile, quindi possiamo scriverlo come $\sum^* = \{\sigma_1, \sigma_2,\sigma_3,...\}$. Allora un linguaggio, diciamo $L_1 = \{\sigma_1,\sigma_4\}$, pu\`o essere rappresentato come una riga in una tabella:\\
-\begin{center}
-\includegraphics[scale=0.5]{tabella_linguaggi.png}
-
-\end{center}
-\end{proof}
-Ciascun linguaggio su $\sum$ pu\`o essere rappresentato in questo modo. Per contaddizione, assumi che $S_{\sum}$ sia un insieme numerabile. Allora possiamo assegnare un numero naturale ai suoi elementi, cos\`i che ogni $L_i \in S_{\sum}$ appare come riga a destra.\\ \begin{center}
-\includegraphics[scale=0.5]{tabella_linguaggi2.png}
-\end{center}
-Davvero ogni elemento $L$ di $S_{\sum}$ compare su una riga?\\
-Definisci $L$ come $00110...$, allora $\sigma_i \in L \iff \sigma_i \notin L_i$. Quindi $L$ \`e diverso da ogni linguaggio $L_i$ sulla riga. Dunque $L$ non pu\`o essere in una riga! \textbf{Contraddizione}.\\ Quindi, $S_{\sum}$ non \`e numerabile.\\ \begin{center}
- \includegraphics[scale=0.5]{tabella_linguaggi3.png}
-\end{center}
-\subsection{Riassumendo}
-Dato un alfabeto finito $\sum$, abbiamo visto che:
-\begin{enumerate}
-\item l'insieme di linguaggi riconoscibili da una TM \`e infinito numerabile.
-\item l'insieme di tutti i linguaggi \`e non-numerabile.
-\end{enumerate}
-Quindi, esistono limguaggi che non sono riconoscibili da alcuna TM, ad esempio $HALT^{-}, EQ, EQ^{-}$.\\
-\subsubsection{Quanti linguaggi non riconoscibili ci sono?}
-La risposta deriva da un  un risultato generale.
-\begin{theorem}
-\label{th:3}
-Se $S$ \`e un insieme infinito, non-numerabile e $S'$ \`e un sottoinsieme infinito numerabile di S, allora $S \backslash S'$ non \`e un inifinito numerabile.
-\end{theorem}
-\begin{proof}
-Assumi $S \backslash S'$ sia infinito numerabile. Allora, poich\`e i linguaggi infiniti numerabili sono chiusi per unione, $(S \backslash S') \cup S' = S$ \`e numerabile. Contraddizione!
-\end{proof}
-Dal \ref{th:3} otteniamo il seguente corollario.
-\begin{corollary}
-L'insieme di linguaggi non riconoscibili non \`e infinito numerabile, allora ci sono pi\`u linguaggi non riconoscibili che riconoscibili.
-\end{corollary}
-
-
-\section{Teorema di Rice}
-Abbiamo visto che non possiamo decidere se una TM: \begin{enumerate}
-\item ferma su un dato input
-\item ferma su input vuoto (stringa vuota)
-\item \`e equivalente a un\`altra TM.
-\end{enumerate}
-Allora, quali problemi riguardanti le TM sono decidibili?
-Per esempio: \begin{enumerate}
-\item possimo verificare quanti stati ha una macchina, e desumere quanti stati ha
-\item se va mai a dx o a sx
-\end{enumerate}
-Cos'altro?
-\subsection{ripasso: linguaggi}
-Una \textbf{propriet\`a di linguaggio} P \`e una funzione da un insieme di TM a ${0,1}$ (falso/vero), tale che $L_M = L_{M'}$ implica P($M$) = P($M'$).
-Questo assicura che P dipenda solo dal linguaggio descritto dalla macchina. Per esempio: "ferma in 42 step" non \`e propriet\`a del linguaggio.
-Questa propriet\`a \`e \textbf{non-triviale} se esiste una TM $M$ tale che P($M$) - 1 e una TM $M'$ tale che P($M'$)=0. Formalmente, identificheremo le TM che soddisfano la propriet\`a P con l\`insieme: \begin{center}
-$\{y \in \sum^* | y=code(M)\ e\ P(M)=1\}$
-\end{center} 
-\subsection{Teorema di Rice}
-\begin{theorem}
-Se P \`e una propriet\`a di lunguaggio non triviale, allora il problema "M ha propriet\`a P" \`e indecidibile.
-\end{theorem}
-\begin{proof}
-Per contraddizione  dimostraiamo che se "$M$ ha propriet\`a P" fosse decidibile, allora il problema della fermata sarebbe decidibile.\\
-Considera una prpriet\`a P. Assumiamo P($M_{\emptyset}$) = 0. ($M_{\emptyset}$ \`e una TM che riconosce il linuaggio vuoto.) Poich\`e P \`e non-triviale, possiamo considerare una TM $M_P$ tale che P($M_P$) = 1. Fissiamo $M$ e x come parametri e costruiamo la seguente TM $M_{M,x}$:\\
-\includegraphics[scale=0.5]{TM_RICE1.png}\\
-\includegraphics[scale=0.45]{RICE2.png}\\
-Se potessimo decidere se $M_{M,x}$ ha la propriet\`a P, potremmo decidere il problema della fermata. Allora, $\{y|y=code(M) e P(M)=1\}$ \`e indecidibile.\\
-Abbiamo assunto P($M_{\emptyset}$)=0. Se P($M_{\emptyset}$)=1? In questo caso, ripetiamo lo stesso argomento, ma per la propriet\`a $\neg P$ ("$M$ non ha la propriet\`a P"). Osserva che questo funziona perch\`e: \begin{enumerate}
-\item dato che P \`e non-triviale, anche $\neg P$ \`e non-triviale.
-\item dato che P($M_{\emptyset}$) = 1, allora $\neg P(M_{\emptyset}) = 1\}$ \`e indecidibile.
-\end{enumerate}
-Concludiamo che $\{y|y=code(M) \land \neg P(M) = 1\}$ \`e indecidibile. Questo implica che anche $\{y | y=code(M) \land P(M)=1\}$ sia indecidibile.
-\end{proof}
-NB: lo schema di dimostrazione \`e:
-\begin{itemize}
-\item Devo dimostrare $A \iff B$
-\item Dimostriamo $A \Rightarrow B \land \neg A \Rightarrow \neg B$
-\item Che equivale a $A \Rightarrow B \land B \Rightarrow A$
-\end{itemize}
-
 \section{Mapping-reduction}
 Abbiamo dimostrato che 
 \begin{enumerate}
@@ -494,6 +410,210 @@ L'\textbf{equivalence problem} (EQ) per le TM \`e definito dal seguente linguagg
 $EQ = \{\langle y,x \rangle \in \sum^{*}\times\sum^{*} | x=code(M),y=code(M') \land f_{M} = f_{M'}\}$\\
 Ovvero $M$ e $M'$ computano la stessa funzione parziale.
 \end{center}
+\begin{theorem}
+$EQ$ \`e indecidibile.
+\end{theorem}
+Idea della dimostrazione: Riduciamo $FL$ a $EQ$.\footnote{Osserva che avremmo potuto usare la riduzione da $HALT$, abbiamo cambiato per mostrare la flessibilit\`a di questo approccio.}
+\begin{proof}
+\`E sufficiente costruire una funzione computabile $f$ tale che:
+\begin{center}
+$z \in FL \iff f(z) \in EQ$
+\end{center}
+La definizione di $f$ \`e come segue. Su argomento $z$:
+\begin{itemize}
+\item $\forall M. z \neq code(M) \implies f(z) = \langle z,z\rangle \notin EQ$.
+\item $z=code(M) \implies f(z) = \langle code(M_1), code(M_2) \rangle$, dove $M_1$ e $M_2$ sono definite coem segue:
+\begin{enumerate}
+\item $M_1$ esegue $M$ sul suo input e restituisce 1 se $M$ si ferma, e va in loop altrimenti.
+\item $M2$ restituisce 1 $\forall input$.
+\end{enumerate}
+\end{itemize}
+\includegraphics[scale=0.5]{EQ1.png}\\
+\end{proof}
+\subsection{Riduzione e Riconoscibilit\`a}
+Ci\`o che \`e vero per riduzione e decidibilit\`a vale anche per riduzione e riconoscibilit\`a.
+\begin{theorem}
+\label{th:6}
+Se $L' \leq L \land L$ \`e riconoscibile $\implies L'$ \`e riconoscibile.
+\end{theorem}
+\begin{corollary}
+Da \ref{th:6} $L' \leq L \land L'\ $ non \`e riconoscibile $\implies L$ non \`e riconoscibile.
+\end{corollary}
+\begin{corollary}
+Da \ref{th:6} Se $L$ \`e riconoscibile $\land L'\ $ non lo \`e $\implies L' \nleq L$. 
+\end{corollary}
+\subsection{l'equivalence problem non \`e riconoscibile}
+Abbiamo dimostrato che $EQ$ \`e indecidibile. Ora mostriamo che $EQ$ non \`e riconoscibile. Ricordando che $EQ$ \`e definito come segue:
+\begin{center}
+$EQ = \{\langle y,x \rangle \in \sum^{*}\times\sum^{*} | x=code(M),y=code(M') \land f_{M} = f_{M'}\}$\\
+Ovvero $M$ e $M'$ computano la stessa funzione parziale.
+\end{center}
+\begin{theorem}
+\label{th:7}
+$EQ$ non \`e riconoscibile.
+\end{theorem}
+Idea della dimostrazione: Riduciamo $HALT^{-}$ (che sappiamo essere un problema non-riconoscibile) a $EQ$.
+\begin{proof}
+Ricordiamo la definizione di $HALT^{-}$:
+\begin{center}
+$HALT^{-} = \{\langle y,x \rangle \in \sum^{*} \times \sum^{*} | \forall M. y \neq code(M) \lor y=code(M) \land M$ non ferma su$x\}$
+\end{center}
+Per la riduzione, abbiamo la funzione $f$ \begin{center}
+$\langle y, x \rangle \in HALT^{-} \iff f(\langle y,x\rangle) \in EQ$
+\end{center}
+equivalente a \begin{center}
+$\langle y,x \rangle \in HALT \iff f(\langle y,x \rangle) \in EQ^{-}$
+\end{center}
+Su $\langle y,x\rangle$ definiamo $f$ come segue:
+\begin{itemize}
+\item Se $\forall M. y \neq code(M)$ allora prendiamo $M'$ quialsiasi e consideriamo \\$f(\langle y, x \rangle) = \langle code(M'), code(M)\rangle$.
+\item altrimenti $y = code(M)$ e consideriamo $f(\langle y,x \rangle) = \langle code(M_1), code(M_2) \rangle$, dove $M_1$ e $M_2$ sono definite come:
+\begin{enumerate}
+\item $M_1$ esegue $M$ su $x$ e si ferma se $M$ si ferma, altrimenti entra in un ciclo.
+\item $M_2$ entra in un ciclo su ogni input.\\
+\end{enumerate}
+\end{itemize}
+\includegraphics[scale=0.4]{EQ2.png}\\
+\end{proof}
+\subsection{Ulteriori propriet\`a della mapping-reduction}
+\begin{theorem}
+\label{th:8}
+Se $L' \leq L \land L$ \`e decidibile, allora $L'$ \`e decidibile.
+\end{theorem}
+\begin{corollary}
+Da \ref{th:7} se $L' \leq L \land L'$ \`e indecidibile, allora $L$ \`e indecidibile.
+\end{corollary}
+\begin{corollary}
+Da \ref{th:7} se $L$ \`e decidibile e $L'$ no, allora $L' \nleq L$.
+\end{corollary}
+Se $L'$ \`e decibile, la riduzione a qualche $L$ \`e di scarsa utilit\`a.
+\begin{theorem}
+\label{th:9}
+Se $L$ \`e un linguaggio non-triviale $(L \neq \sum^{*} \land L \neq \emptyset)$, allora $\forall L'$ decidibile$.L' \leq L$.
+\end{theorem}
+\begin{proof}
+Poich\`e $L$ \`e non-triviale, possiamo prendere $x \in L \land y \notin L$. Definiamo la funzione $f: \sum^{*} \rightarrow \sum^{*}$ come segue:
+\begin{enumerate}
+\item $f(z) = x$ se $z \in L'$
+\item $f(z) = y$ altrimenti 
+\end{enumerate}
+Poich\`e \`e decidibile, $f$ pu\`o essere implementata tramite una TM che simula internamente la TM per $L'$ e restituisce $x$ o $y$ coerentemente. Inoltre, per definizione di $f$: \begin{center}
+$z \in L' \iff f(z) \in L$
+\end{center}
+\subsection{Riduzione come Relazione}
+La riduzione \`e una relazione tra linguaggi.\begin{enumerate}
+\item \`E \textbf{riflessiva}: $\forall L. L \leq L'$.
+\item \`E \textbf{transitiva}" $L' \leq L \land L \leq L''  \implies L' \leq L''$.
+\item Non \`e per\`o \textbf{simmetrica} (sarebbe simmetrica se $L' \leq L \implies L \leq L'$)\footnote{Il problema della fermata \`e un controesempio, per per \ref{th:8} $\forall L'$ decidibile, $L' \leq HALT$, se anche $HALT \leq L'$, allora anche $HALT$ sarebbe decidibile per \ref{th:7}. Contraddizione.} 
+\end{enumerate}
+Quindi, la riduzione non \`e una relazione di equivalenza. 
+\end{proof}
+\subsection{Riduzione e Complemento}
+\begin{theorem}
+\label{th:10}
+$L_1 \leq L_2 \iff L_{1}^{-} \leq L_{2}^{-}$.
+\end{theorem}
+\begin{corollary}
+Da \ref{th:9} $L_{1}^{-} \leq L_2 \iff L_1 \leq L_{2}^{-}$.\footnote{Usato implicitamente nella prova di \ref{th:7} con $L_1 = HALT$ e $L_2= EQ$}
+\end{corollary}
+Mettendo insieme questi risultati, abbiamo senza ulteriore lavoro una prova che $EQ^{-}$ non \`e riconoscibile. Infatti, $HALT \leq FL \leq EQ$, quindi $HALT^{-} \leq EQ^{-}$ per teorema. La non-riconoscibilit\`a di $HALT^{-}$ implica non-riconoscibilit\`a di $EQ^{-}$.
+\subsection{Gerarchia dei problemi}
+\begin{enumerate}
+\item Decidibile.
+\item Indecidibile, ma riconoscibile (es. $HALT$).
+\item Non riconoscibile, ma il cui complemento \`e riconoscibile (es. $HALT^{-}$).
+\item Non riconoscibile, e non il cui complemento non \`e riconoscibile (es. $EQ$).
+\end{enumerate}
+\subsection{Turing-riducibilit\`a}
+La mapping-reducibility è solo uno dei modi in cui definire il concetto di problema riducibile a un altro problema. Un altro \`e la Turing-riducibilit\`a. Un \textbf{oracolo} per il linguaggio $L$ \`e uno strumento esterno ("black box") capace di rispondere alla domanda $"x \in L?" \forall x$.\\ Un linguiaggio $L'$ \`e \textbf{Turning-riducibile} a $L$ se, dato un oracolo per $L$, possiamo decodere $L'$.
+\begin{center}
+$mapping-riducibility \implies Turing-riducibility$.
+\end{center}
+Ad esempio sappiamo che $HALT^{-} \nleq HALT$, cio\`e $HALT^{-}$ non \`e mapping-riducibile a $HALT$. MA $HALT^{-}$ \`e Turing-riducibile ad $HALT$. Infatti, se abbiamo un oracolo per la domanda $"\langle y,x \rangle \in HALT?"$, questo pu\`o essere usato per decidere se $\langle y,x \rangle \in HALT^{-}$.
+
+
+\section{Linguaggi sono non numerabili}
+Sia $S_{\sum}$ l'insieme di tutti i linguaggi sull'alfabeto finito $\sum$.
+\begin{theorem}
+L;insieme $S_{\sum}$ non \`e numerabile.
+\end{theorem}
+\begin{proof}
+Ricorda che un linguaggio L \`e un sottoinsieme di $\sum^*$. Abbiamo gi\`a visto che $\sum^*$ \`e infinito numerabile, quindi possiamo scriverlo come $\sum^* = \{\sigma_1, \sigma_2,\sigma_3,...\}$. Allora un linguaggio, diciamo $L_1 = \{\sigma_1,\sigma_4\}$, pu\`o essere rappresentato come una riga in una tabella:\\
+\begin{center}
+\includegraphics[scale=0.5]{tabella_linguaggi.png}
+
+\end{center}
+\end{proof}
+Ciascun linguaggio su $\sum$ pu\`o essere rappresentato in questo modo. Per contaddizione, assumi che $S_{\sum}$ sia un insieme numerabile. Allora possiamo assegnare un numero naturale ai suoi elementi, cos\`i che ogni $L_i \in S_{\sum}$ appare come riga a destra.\\ \begin{center}
+\includegraphics[scale=0.5]{tabella_linguaggi2.png}
+\end{center}
+Davvero ogni elemento $L$ di $S_{\sum}$ compare su una riga?\\
+Definisci $L$ come $00110...$, allora $\sigma_i \in L \iff \sigma_i \notin L_i$. Quindi $L$ \`e diverso da ogni linguaggio $L_i$ sulla riga. Dunque $L$ non pu\`o essere in una riga! \textbf{Contraddizione}.\\ Quindi, $S_{\sum}$ non \`e numerabile.\\ \begin{center}
+ \includegraphics[scale=0.5]{tabella_linguaggi3.png}
+\end{center}
+\subsection{Riassumendo}
+Dato un alfabeto finito $\sum$, abbiamo visto che:
+\begin{enumerate}
+\item l'insieme di linguaggi riconoscibili da una TM \`e infinito numerabile.
+\item l'insieme di tutti i linguaggi \`e non-numerabile.
+\end{enumerate}
+Quindi, esistono limguaggi che non sono riconoscibili da alcuna TM, ad esempio $HALT^{-}, EQ, EQ^{-}$.\\
+\subsubsection{Quanti linguaggi non riconoscibili ci sono?}
+La risposta deriva da un  un risultato generale.
+\begin{theorem}
+\label{th:3}
+Se $S$ \`e un insieme infinito, non-numerabile e $S'$ \`e un sottoinsieme infinito numerabile di S, allora $S \backslash S'$ non \`e un inifinito numerabile.
+\end{theorem}
+\begin{proof}
+Assumi $S \backslash S'$ sia infinito numerabile. Allora, poich\`e i linguaggi infiniti numerabili sono chiusi per unione, $(S \backslash S') \cup S' = S$ \`e numerabile. Contraddizione!
+\end{proof}
+Dal \ref{th:3} otteniamo il seguente corollario.
+\begin{corollary}
+L'insieme di linguaggi non riconoscibili non \`e infinito numerabile, allora ci sono pi\`u linguaggi non riconoscibili che riconoscibili.
+\end{corollary}
+
+
+\section{Teorema di Rice}
+Abbiamo visto che non possiamo decidere se una TM: \begin{enumerate}
+\item ferma su un dato input
+\item ferma su input vuoto (stringa vuota)
+\item \`e equivalente a un\`altra TM.
+\end{enumerate}
+Allora, quali problemi riguardanti le TM sono decidibili?
+Per esempio: \begin{enumerate}
+\item possimo verificare quanti stati ha una macchina, e desumere quanti stati ha
+\item se va mai a dx o a sx
+\end{enumerate}
+Cos'altro?
+\subsection{ripasso: linguaggi}
+Una \textbf{propriet\`a di linguaggio} P \`e una funzione da un insieme di TM a ${0,1}$ (falso/vero), tale che $L_M = L_{M'}$ implica P($M$) = P($M'$).
+Questo assicura che P dipenda solo dal linguaggio descritto dalla macchina. Per esempio: "ferma in 42 step" non \`e propriet\`a del linguaggio.
+Questa propriet\`a \`e \textbf{non-triviale} se esiste una TM $M$ tale che P($M$) - 1 e una TM $M'$ tale che P($M'$)=0. Formalmente, identificheremo le TM che soddisfano la propriet\`a P con l\`insieme: \begin{center}
+$\{y \in \sum^* | y=code(M)\ e\ P(M)=1\}$
+\end{center} 
+\subsection{Teorema di Rice}
+\begin{theorem}
+Se P \`e una propriet\`a di lunguaggio non triviale, allora il problema "M ha propriet\`a P" \`e indecidibile.
+\end{theorem}
+\begin{proof}
+Per contraddizione  dimostraiamo che se "$M$ ha propriet\`a P" fosse decidibile, allora il problema della fermata sarebbe decidibile.\\
+Considera una prpriet\`a P. Assumiamo P($M_{\emptyset}$) = 0. ($M_{\emptyset}$ \`e una TM che riconosce il linuaggio vuoto.) Poich\`e P \`e non-triviale, possiamo considerare una TM $M_P$ tale che P($M_P$) = 1. Fissiamo $M$ e x come parametri e costruiamo la seguente TM $M_{M,x}$:\\
+\includegraphics[scale=0.5]{TM_RICE1.png}\\
+\includegraphics[scale=0.45]{RICE2.png}\\
+Se potessimo decidere se $M_{M,x}$ ha la propriet\`a P, potremmo decidere il problema della fermata. Allora, $\{y|y=code(M) e P(M)=1\}$ \`e indecidibile.\\
+Abbiamo assunto P($M_{\emptyset}$)=0. Se P($M_{\emptyset}$)=1? In questo caso, ripetiamo lo stesso argomento, ma per la propriet\`a $\neg P$ ("$M$ non ha la propriet\`a P"). Osserva che questo funziona perch\`e: \begin{enumerate}
+\item dato che P \`e non-triviale, anche $\neg P$ \`e non-triviale.
+\item dato che P($M_{\emptyset}$) = 1, allora $\neg P(M_{\emptyset}) = 1\}$ \`e indecidibile.
+\end{enumerate}
+Concludiamo che $\{y|y=code(M) \land \neg P(M) = 1\}$ \`e indecidibile. Questo implica che anche $\{y | y=code(M) \land P(M)=1\}$ sia indecidibile.
+\end{proof}
+NB: lo schema di dimostrazione \`e:
+\begin{itemize}
+\item Devo dimostrare $A \iff B$
+\item Dimostriamo $A \Rightarrow B \land \neg A \Rightarrow \neg B$
+\item Che equivale a $A \Rightarrow B \land B \Rightarrow A$
+\end{itemize}
+
 \end{document}
 
 

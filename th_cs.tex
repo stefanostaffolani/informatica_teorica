@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{wrapfig}
 \usepackage{titlesec}
+\usepackage{multicol}
 \usepackage{geometry}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata,positioning}
@@ -530,9 +531,31 @@ La mapping-reducibility è solo uno dei modi in cui definire il concetto di prob
 $mapping-riducibility \implies Turing-riducibility$.
 \end{center}
 Ad esempio sappiamo che $HALT^{-} \nleq HALT$, cio\`e $HALT^{-}$ non \`e mapping-riducibile a $HALT$. MA $HALT^{-}$ \`e Turing-riducibile ad $HALT$. Infatti, se abbiamo un oracolo per la domanda $"\langle y,x \rangle \in HALT?"$, questo pu\`o essere usato per decidere se $\langle y,x \rangle \in HALT^{-}$.
-
-
+\section{La cardinalit\'a dei problemi irrisolvibili}
+\subsection{Obiettivo}
+Vogliamo mostrare cjhe la maggior parte dei linguaggi non sono riconoscibili (e, quindi indecidibili). Il nostro argomento consiste nel mostrare che ci sono $"molti"$ pi\`u linguaggi che TM.
+\subsection{Insiemi infiniti numerabili}
+Un insieme $S$ \`e \textbf{infinito numerabile} se c'\`e una funzione totale biettiva $f: \mathbb{N} \rightarrow S$.
+Ad esempio: l'insieme dei numeri dispari $D$ con la funzione $f: \mathbb{N} \rightarrow D$ definita come $f(n) = 2n - 1$.
+\begin{lemma}
+\label{lemma:1}
+Se $S_1$ e $S_2$ sono infiniti numerabili, $S_{1} \cup S_{2}$ \`e infinito numerabile.
+\end{lemma}
+Ad esempio prendiamo l'insieme $\sum^{*}$ di stringhe su alfabeto finito $\sum$.\\Assumi $|\sum|=n$, la biezione con $\mathbb{N}$ \`e costruita come:
+\begin{center}
+$f: \mathbb{N} \rightarrow \sum^{*}$
+\begin{enumerate}
+\item $f(\epsilon) = 1$
+\item $\forall i \in \{1..n\}.\ f(\sigma_{i}) = i + 1$
+\item $\forall i \in \{1..n\} \forall j \in \{1..n\}.\ f(\sigma_{i} \sigma_{j})= n \times i + i+ j$
+\item ecc. per stringhe con lunghezza $> 2$.
+\end{enumerate}
+\end{center}
+Abbiamo visto che ogni TM pu\`o essere codificata come una stringa per un alfabeto $\sum$ con $|\sum| = 2$ (es. $\sum = \{0,1\}$).\\
+Allora, l' \textbf{insieme di tutte le TM} \`ee inifinito numerabile. Anche l' \textbf{insieme di tutti i linguaggi riconoscibili} \`e infinito numerabile. Questo perch\`e, per definizione, un linguaggio \`e riconoscibile se c;\`e una TM che lo riconosce. Per la stessa ragione, l' \textbf{insieme delle funzioni} $\mathbb{N} \rightarrow \mathbb{N}\ computabili$ da una TM \`e infonoto numerabile. 
 \section{Linguaggi sono non numerabili}
+
+%%%%%%%%%
 Sia $S_{\sum}$ l'insieme di tutti i linguaggi sull'alfabeto finito $\sum$.
 \begin{theorem}
 L;insieme $S_{\sum}$ non \`e numerabile.
@@ -613,7 +636,152 @@ NB: lo schema di dimostrazione \`e:
 \item Dimostriamo $A \Rightarrow B \land \neg A \Rightarrow \neg B$
 \item Che equivale a $A \Rightarrow B \land B \Rightarrow A$
 \end{itemize}
+\subsection{Proprit\`a decidibili}
+Il Teorema di Rice riguarda propriet\`a di \textbf{linguaggio}, non propriet\`a algoritmiche; riguarda funzioni (specifiche), non programmi (implementazioni). Per esempio non possiamo usare il teorema di Rice per derivare l'indecidibilit\`a del problema della fermata (e simili).
+In geerale, ci sono tre tipi di propriet\`a riguardo le TM:
+\begin{enumerate}
+\item \textbf{Propriet\`a di linguaggio}: Quelle non triviali sono indifinibili (teorema di Rice).
+\item \textbf{Propriet\`a strutturali}: Queste sono tipicamente decidibili poich\`e si possono verificare staticamente sulla (codifica della) descrizione di TM. (es. $"M\ ha\ 13\ stati"$).
+\item \textbf{Propriet\`a comportamentali (o algoritmiche)}: Alcune sono decidibili, altre no, e la classificazione non \`e ovvia (es. $"M\ non\ si\ mouve\ a\ sinistra\ su\ input\ 0101"$).
+\end{enumerate}
+\section{Tiling}
+Mostriamo ora un esmpio di problema non calcolabile in un contesto diverso dalla teoria della computabilit\`a. L'obiettivo generale \`e quello di mostrare che la non-calcolabilit\`a \`e un fenomeno \textbf{pervasivo}, presente in diverse discipline e problemi.\\
+Dato un insieme di piastrelle e di regole per metterle insieme, esiste una disposizione del piano che rispetti tali regole?
+\subsection{Sistema di Tiling}
+Un sistema di tiling \`e costituito da:
+\begin{enumerate}
+\item Un insieme di piastrelle (tiles) quadrate, per esempio\\
+\includegraphics[scale=0.5]{tiling1.png}
+\item Un elemento scelto $t_0 \in \tau $ detto piastrella d'origine.
+\item Un insieme di $regole di adiacenza$, che specificano quali piastrelle possano essere posate le une accanto alle altre.
+\end{enumerate}
+\subsection{Tiling}
+Il \textbf{tiling} \`e una disposizione delle piastrelle in $\tau$ con le seguenti proprit\`a:
+\begin{enumerate}
+\item $t_{0}$ si trova nell'angolo in basso a sinistra.
+\item Ogni piastrella ha una piastrella sopra e una disposta alla sua destra, senza spazi intermedi.
+\item Tutte le regole di adiacenza dono rispettate.
+\end{enumerate}
+\subsubsection{Esempio}
+\begin{center}
+L'insieme di piastrelle\\
+\includegraphics[scale=0.5]{tiling1.png}\\
+la piastrella d'origine\\
+\includegraphics[scale=0.5]{tiling2.png}\\
+Regole Orizzontali\\
+\includegraphics[scale=0.4]{regole_orizzontali.png}\\
+Regole Verticali\\
+\includegraphics[scale=0.4]{regole_verticali.png}\\
+\end{center}
+Un tiling per questo sistema \`e per esempio:
+\begin{center}
+\includegraphics[scale=0.5]{tiling3.png}
+\end{center}
+\subsection{Il problema del tiling}
+Vogliamo analizzare il \textbf{problema del tiling} (tiling problem):
+\begin{center}
 
+\textbf{Domanda:}\emph{dato un sistema di tiling, esiste un tiling?}\footnote{1961, Hao Wang.}\\
+\textbf{Risposta:}\emph{No.}\footnote{1966, Robert Berger}
+\end{center}
+Per dimostrare questo, abbiamo bidogno di una definizione formale dei dati del problema.
+\subsection{Sistema di tiling, formalmente}
+Un \textbf{sistema di tiling} \`e una tupla $\langle \tau, t_0, H, V \rangle$ tale che:
+\begin{center}
+\begin{enumerate}
+\item $\tau$ \`e un insieme di piastrelle.
+\item $t_0 \in \tau$ \`e la piastrella d'origine.
+\item $H \subset \tau \times \tau$ \`e un insieme di regole di adiacenza orizzontali e $V \subset \tau \times \tau$ \`e un insieme di regole di adiacenza verticali.
+\end{enumerate}
+\end{center}
+Assumiamo il quadrante positivo del piano sia diviso in celle identificate dalle proprie coordinate. Il \textbf{tiling} \`e una funzione $f: \mathbb{N} \times \mathbb{N} \rightarrow \tau$ tale che:
+\begin{enumerate}
+\item $f(1,1) = t_0$
+\item $\forall n,m \in \mathbb{N}.(f(n,m),f(n,m+1)) \in V$
+\item $\forall n,m \in \mathbb{N}.(f(n,m),f(n+1,m)) \in V$
+\end{enumerate}
+\subsection{Problemi di tiling}
+Mostreremo che il tiling problem \`e irriconoscibile mostrando che il complemento di $ETH$ si riduce a esso.
+\begin{center}
+$ETH = \{x \in \sum^{*} | x = code(M) \land M\ ferma\ su\ \epsilon\}$\\
+$ETH = \{x \in \sum^{*} | \forall M.x \neq code(M) \lor x = code(M) \land M\ non\ ferma\ su\ \epsilon\}$
+\end{center}
+Abbiamo visto che $ETH$ \`e indecidibile ma riconoscibile. Quindi come per il problema della fermata e il suo complemento, $ETH^{-}$ deve essere non riconoscibile: altrimenti $ETH$ sarebbe in realt\`a decidibile. Perci\`o, ridurre $ETH^{-}$ al tiling problem implica che il tiling problem non sia riconoscibile da nessuna TM.
+
+\newpage
+\section{Teoria della complessit\`a computazionale}
+%\subsection{Una lettera di Goedel(1956)}
+%Goedel considera una funzione:
+%\begin{center}
+%$\phi:$ lunghezza $n$ massima della dimostrazione da trovare $\rightarrow$ numero di passi di computazione di una TM
+%\end{center}
+\subsection{Misurare la complessit\`a}
+\begin{center}
+$A = \{0^{k}1^{k} | k \geq 0\}$
+\end{center}
+Programma della TM che decide A:
+\begin{enumerate}
+\item Leggi l'input e rigetta se trovi uno 0 a destra di un 1.\footnote{$n$ passi.}
+\item Fino a che ci sono sia valori 0 che valori 1 sul nastro: scansiona il nastro eliminando un singolo 0 e un singolo 1.\footnote{al pi\`u $n/2 \times n$ passi.}
+\item Se rimangono ancora valori 0 o 1, rigetta. Se invece il nastro \`e vuoto, accetta.\footnote{al pi\`u $n$ passi.}
+\end{enumerate}
+Supponi che l'input abbia lunghezza n. Quanti passi di computazione richiede l'algoritmo?
+\subsubsection{Complessit\`a di tempo}
+Sia $M$ una TM che si ferma su tutti gli input. La sua \textbf{complessit\`a di tempo} \`e definita come la funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n)$ \`e il massimo numero di passi che $M$ impiega a fermarsi su arbitrari input di lunghezza $n$.\\
+Ad esmpio, la TM appena vista ha complessit\`a: $n + (n/2 \times N) + n$\\
+Quanto \`e robusto questo metodo di misurare la complessit\`a di un algoritmo?
+\begin{enumerate}
+\item Dipende dal modello di calcolo.
+\item Dipende da cosa intendiamo per 'passi' di computazione.
+\item \`E sensibile a variazioni minime (ad es. una sub-routine che richiede un tempo costante, indipendente dall'input).
+\item Dipende dalla codifica dell'input e come misuriamo la sua lunghezza.
+\end{enumerate}
+
+\subsubsection{Notazione Big-O}
+Un modo pi\`u efficace di esprimere la complessit\`a  di un algoritmo \`e usando una notazione che astrae dettagli implementativi poco rilevanti, e fornisce solo una \textbf{stime} significativa del suo tempo di esecuzione.
+\begin{center}
+date funzioni $f,g: \mathbb{N} \rightarrow \mathbb{N}$ scriviamo $f(n) = O(g(n))$ e diciamo che $g(n)$ \`e un \textbf{bound superiore asintotico} se esistono $c \in \mathbb{N}$, e $m \in \mathbb{N}$ tali che $\forall n. n \geq m. f(n) \leq c \times g(n)$\\In altre parole, $g(n)$ \`e sempre grande almeno quanto $f(n)$ per $n$ sufficientemente grandi e modulo un fattore costante $c$.
+\end{center}
+
+\subsubsection{Classi di complessit\`a}
+\begin{center}
+Data una funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, definiamo \textbf{la classe di complessit\`a}(di tempo) \textbf{TIME(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in te,mpo $O(t(n))$.
+\end{center}
+Ad esempio il linguaggio A \`e nella classe $TIME(n^{2})$.
+\subsection{La classe P}
+\begin{center}
+P \`e la classe dei linguaggi decidibili da una TM (deterministica, a un nastro) in tempo \textbf{polinomiale}. Ovvero:\\
+$P = \bigcup_{k} TIME(n^{k})$
+\end{center}
+\subsubsection{Perch\`e P?}
+Nella pratica dello sviluppo software, un algoritmo che lavora in tempo polinomiale viene solitamente consoderato "ragionevole".\\ Il bound polinomiale pu\`o essere in realt\`a molto alto (es. $O(n^{10})$), ma l'esperienza ci ha rivbelato che, qualora un algoritmo polinomiale \`e conosciuto, \`e solitamente possibile renderlo pi\`u efficiente.\\Un altro aspetto riguarda la codifica, la maggior parte delle codifiche per strutture come grafi, alberi, matrici, automi, ecc. come stringhe richiede tempo polinomiale, e produce una stringa di output di lunghezza polinomiale rispetto all'input.
+\subsubsection{Tesi di Church-Turing rafforzata}
+Ogni modello di calcolo deterministico fisicamente realizzabile pu\`o essere simulato da una TM (deterministica, su nastro singolo) con overhead al pi\`u polinomiale.\\
+$M$ passi di computazione del modello in questione possono essere simulati dalla TM in al pi\`u $O(m^{c})$ passi per una costante $c$.\\
+Se vera, la tesi asserisce che la classe P \`e robusta, nel senso di essere invariante rispetto al modello di computazione deterministico scelto.
+\subsection{La classe EXP}
+P \`e la classe dei linguaggi decidibili in un tempo "ragionevole". \begin{center}
+$EXP = \bigcup_{k} TIME(2^{n^{k}})$
+\end{center}
+EXP \`e la classe dei linguaggi decidibili in un tempo "irragionevole".\\
+La classe $EXP$ intutivamente \`e propria degli algoritmi che eseguono un'analisi brute-force, esplorando lo spazio di tutte le possibili soluzioni a un problema.
+\subsection{Esempio: PATH}
+$PATH = \{\langle G,s,t \rangle |\ G\ grafo\ diretto\ che\ ha\ un\ percorso\ diretto\ da\ s\ a\ t.\}$
+
+\begin{theorem}
+PATH \`e in P.
+\end{theorem}
+\begin{proof}
+Considera il seguente algoritmo: 
+Su input $\langle G, s,t \rangle$:
+
+\begin{enumerate}
+\item Contrassegna il node $s$.
+\item Ripeti fino a che nessuno nuovo nodo \`e contrassegnato: [scansiona tutti gli archi di G. Se trovi un arco da nodo a contrassegnato ad uno b non contrassegnato, contrassegna il nodo b.]
+\item Se t \`e contrassegnato, accetta. Se no, rigetta.
+\end{enumerate}
+Analizziamo la complessit\`a: $1$ e $3$ sono chiaramente in P. La subroutine di $2$ \`e in P ed \`e ripetuta al massimo per un numero di nodi di G, quindi $2$ nel suo compleso \`e in P. Perci\`o l'algoritmo \`e in P.
+\end{proof}
 \end{document}
 
 

@@ -707,7 +707,14 @@ $ETH = \{x \in \sum^{*} | x = code(M) \land M\ ferma\ su\ \epsilon\}$\\
 $ETH = \{x \in \sum^{*} | \forall M.x \neq code(M) \lor x = code(M) \land M\ non\ ferma\ su\ \epsilon\}$
 \end{center}
 Abbiamo visto che $ETH$ \`e indecidibile ma riconoscibile. Quindi come per il problema della fermata e il suo complemento, $ETH^{-}$ deve essere non riconoscibile: altrimenti $ETH$ sarebbe in realt\`a decidibile. Perci\`o, ridurre $ETH^{-}$ al tiling problem implica che il tiling problem non sia riconoscibile da nessuna TM.
-
+La nostra strategia per dimostrare che la non-riconoscibilit\`a  del tiling problem \`e la seguente:
+\begin{enumerate}
+\item Mostriamo che ogni TM $M$ pu\`o essere trasformata in un sistema di tiling $\tau_{M}$.
+\item Questa trasformazione \`e fatta in modo tale per cui \begin{center}
+$code(M) \in ETH \iff \not\exists$ un tiling per $\tau_{M}$
+\end{center}
+\end{enumerate}
+Tale corrispondenza riduce $ETH$ al complemento del tiling problem, cos\`i che $ETH^{-}$ si riduce al tiling problem.
 \newpage
 \section{Teoria della complessit\`a computazionale}
 %\subsection{Una lettera di Goedel(1956)}
@@ -782,6 +789,140 @@ Su input $\langle G, s,t \rangle$:
 \end{enumerate}
 Analizziamo la complessit\`a: $1$ e $3$ sono chiaramente in P. La subroutine di $2$ \`e in P ed \`e ripetuta al massimo per un numero di nodi di G, quindi $2$ nel suo compleso \`e in P. Perci\`o l'algoritmo \`e in P.
 \end{proof}
+
+\subsection{Una nota sulla codifica}
+Abbiamo dimostrato che $PATH$ \`e in $P$ assumendo che la complessit\`a venga rispetto al numero di nodi nel grafo. Tuttavia una TM non lavora direttamente su un grafo ma su una sua codifica come stringa di un alfabeto. Per esempio, possiamo codificare un grafo come una matrice di adiacenza, e una matrice di adiacenza come un numero reale.\\ In che modo possiamo essere certi che questo non influenzi la nostra analisi della complessit\`a di PATH? Perch\`e  ciascuna di queste codifiche impiega tempo al pi\`u polinomiale, e modifica la dimensione di questo input di un fattore al pi\`u polinomiale.
+\subsection{Altri problemi in P: panoramica}
+\begin{enumerate}
+\item n \`e primo? S\`i.
+\item Il grafo G \`e connesso? S\`i.
+\item Data una regex $r$ e la stringa s, $s \in L(r)?$ Probabilmente no (PSPACE-completo).
+\item Problema del commesso viaggiatore? Probabilmente no (NP-completo).
+\item Dalla posizione P in una fila di s cacchi, quale giocatore ha una strategia vincente? Probabilmente no (PSPACE-completo).
+\end{enumerate}
+\subsection{La classe NP}
+Data una funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, definiamo \textbf{la classe di complessit\`a} (di tempo) \textbf{NTIME(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (non-deterministica, a un nastro) in tempo O(t(n)).
+\begin{center}
+$NP = \bigcup_k NTIME(n^{k})$
+\end{center}
+
+\subsection{Esempio: CLIQUE}
+Dato un grafo indiretto, un clique \`e un sotto-grafo dove tutti i nodi sono collegati tra loro da un arco.\\
+\begin{center}
+\includegraphics[scale=0.5]{CLIQUE.png}
+\end{center}
+
+$CLIQUE = \{\langle G, k \rangle | Il\ grafo\ G\ contiene\ un\ CLIQUE\ di\ k\ nodi.\}$\\
+CLIQUE \`e in NP. Ecco una algoritmo non-deterministico polinomiale che lo calcola. Su input $\langle G, k \rangle$
+
+\begin{enumerate}
+\item Seleziona non-deterministicamente un sottoinsieme C di k nodi di G.
+\item Verifica che G colleghi tutti i nodi di C tramite archi. Se si, accetta. Se no, rigetta.
+\end{enumerate}
+
+\subsection{Una caratterizzazione alternativa di NP}
+Un linguaggio $A$ \`e \textbf{verificabile} se esiste una $TM\ M$ (che termina sempre, ed accetta o rigetta) con la propriet\`a:
+\begin{center}
+$w \in A \iff \exists c\ t.c.\ M\ accetta\ \langle w,c \rangle$
+\end{center}
+Se $M$ lavora in tempo polinomiale, diciamo che A \`e \textbf{verificabile polinomialmente}. Intuitivamente, $c$ \`e un certificato del fatto che $w \in A$. Nota che, se $M$ lavora in tempo polinomiale, pu\`o accedere un certificato di lunghezza al pi\`u polinomiale in w.
+
+\begin{theorem}
+Un linguaggio \`e in NP se e solo se \`e verificabile polinomialmente.
+\end{theorem}
+Idea della dimostrazione.
+\begin{proof}
+In una direzione, sia M una TM non-deterministica che decide un linguaggio L in tempo polinomiale. Costruiamo un verificatore V polinomiale per L nel seguente modo: Su input $\langle w,c \rangle$:
+\begin{enumerate}
+\item Simula $M$ su w, trattiamo c come descrizione codificata delle scelte non-deterministiche da prendere nell'albero di computazione di $M$.
+\item Se il ramo di computazione esplorato \`e accettante, accetta.
+\end{enumerate}
+Nella direzione opposta, sia V un verificatore polinomiale per L. Costruiamo una TM $M$ non-deterministica che decide L nel seguente modo: Su input w di lunghezza n:
+\begin{enumerate}
+\item Seleziona non-deterministicamente una stringa c di lunghezza al pi\`u $n^{k}$.
+\item Simula V su input $\langle w, c \rangle$.
+\item Se V accetta, accetta. Se no, rigetta.
+\end{enumerate}
+\end{proof}
+\subsection{P vs NP}
+\begin{enumerate}
+\item P \`e la classe dei linguaggi A per cui la domanda "$w \in A?$" pu\`o essere \textbf{risposta} in maniera efficiente.
+\item Np \`e la classe dei linguaggi A per cui la correttezza di una risposta alla domanda "$w \in A?$" pu\`o essere \textbf{verificata} in maniera efficiente.
+\end{enumerate}
+\subsubsection{Perch\`e Knuth propende per P=NP?}
+\begin{enumerate}
+\item Gli informatici hanno cercato di dimostrare che P è diverso da NP per lungo tempo, senza successo. Questo é un indizio che il contrario (P = NP) é vero.
+\item D’altro canto, altrettante energie sono state impiegate per trovare algoritmi polinomiali per problemi NP, senza successo. É questo un indizio che P é diverso da NP? Secondo Knuth no: questa strategia potrebbe essere sbagliata, un vicolo cieco.
+\item Infatti, la dimostrazione che P = NP potrebbe essere non-costruttiva. Dato un problema in NP, un algoritmo polinomiale potrebbe esistere, ma essere incredibilmente complicato, fuori dalla portata umana. Ad esempio, potrebbe essere di complessità O(ng), dove g é il numero di Graham.
+\item C’è un precedente significativo per quanto sostiene Knuth: il teorema di Roberston-Seymour, il quale dimostra che un certo problema in teoria dei grafi é in P...ma non dà l’algoritmo polinomiale in sé (e non é chiaro come potremmo
+derivarlo in maniera esplicita).
+\item In altre parole, secondo Knuth, anche qualora dimostrassimo che P = NP, la dimostrazione sarebbe quasi sicuramente non-costruttiva, e di nessuna utilità pratica.
+\end{enumerate}
+Perci\`o, in conclusione, Knuth ritiene che P vs NP non sia un problema cos\`i interessante, o quantomeno \`e malposto.
+
+
+\newpage
+\section{Poly reduction}
+Siano $L$ e $L'$ linguaggi sull'alfabeto $\sum$ Diciamo che $L$ \`e \textbf{poly (mapping-)riducibile} a $L$, scritto $L' \leq_p L$, se esiste una TM che computa in tempo polinomiale una funzione (totale) $f: \sum^{*} \rightarrow \sum^{*}$ tale che \begin{center}
+$x \in L' \iff f(x) \in L$
+\end{center}
+In altre parole, $L' \leq_p L$ se $L' \leq L$ e la riduzione che lo testimonia \`e computabile in tempo polinomiale.
+\subsection{Poly reduction e P}
+\begin{theorem}
+Se $L' \leq_p L$ e $L \in P$, allora $L' \in P$.
+\end{theorem}
+\begin{proof}
+Da aggiungere. Fatta in classe alla lavagna
+\end{proof}
+\begin{theorem}
+Per $L \in P$, $L^{-} \leq_p L$. 
+\end{theorem}
+\begin{proof}
+Da aggiungere alla lavagna.
+$L^{-} \leq_p L$
+$x \in L^{-} \iff f(x) \in L$
+$x \notin L \iff f(x) \in L$
+Problema cos'\`e $f$?
+f prende x e calcola se x appartiene ad L (in tempo poly) se s\`i ritorna b non in L , altrimenti a in L. (da correggere)
+\end{proof}
+\textbf{Domanda}: Se $L \in NP$, $L^{-} \leq_p L$?
+\subsection{Formule e soddisfacibilit\`a}
+Una formula booleana \`e costuita a partire da variabili $x,y,z,...$, loro negazione $\lnot x, \lnot y, \lnot z,...$(chiamati collettivamente letterali) e combinazioni di letterali tramite congiunzione e disgiunzione ($\land, \lor $). Le variabili possono ricevere valore vero (1) o falso (0), da cui deriviamo il valore di verit\`a dell'intera formula.\\
+Esempio: $(\lnot x \lor y) \land (x \lor z)$.\\
+Una formula \`e \textbf{soddisfacibile} se esiste un assegnamento di valore alle sue variabili che le dia valore 1. La formula di esempio \`e soddisfacibile, come testimoniato dall'assegnamento $x=1,y=1,z=0$.
+\subsubsection{3cnf}
+Una formula booleana \`e una \textbf{clausula} se \`e una disgiunzione di variabili (positive o negate).
+\begin{center}
+$\lnot x \lor y \lor z \lor \lnot z$
+\end{center}
+Una formula booleana \`e in \textbf{forma normale congiunta (cnf)} se \	e una congiunzione di clausole.
+\begin{center}
+$(x \lor y) \land (\lnot z \lor z) \land (\lnot z \lor y \lor z \lor \lnot z)$
+\end{center}
+Una formula booleana \`e \textbf{3cnf} se \`e in cnf e ogni sua clausula contiene esattamente tre letterali.
+\subsubsection{3SAT e SAT}
+\begin{center}
+$SAT = \{\langle F \rangle | F\ formula\ booleana\ soddisfacibile\}$\\
+$3SAT = \{\langle F \rangle | F\ formula\ booleana\ 3cnf\ soddisfacibile\}$
+\end{center}
+Perch\`e sono importanti?\\
+\begin{enumerate}
+\item ragioni storiche.
+\item Ragioni pratiche: molti problemi informatici possono essere formulati come istanze di SAT e 3SAT, ad esmpio constraint programming.
+\end{enumerate}
+\subsection{3SAT e CLIQUE}
+Dimostreremo che $3SAT \leq_p CLIQUE$. La riduzione \`e interessante perch\`e collega problemi all'apparenza molto diversi (uno sulle formule logiche e l'altro sui grafi).
+\begin{theorem}
+\label{th:10}
+3SAT $\leq_p$ CLIQUE
+\end{theorem}
+\begin{proof}
+L'idea della dimostrazione \`e tradurre formule in grafi, dove $f(\langle F \rangle)$ sar\`a costruito in modo tale da 'mimare' il comportamento di variabili e clausole. Un clique in $f(\langle F \rangle)$ corrisponder\`a ad un assegnamento che soddisfa $\langle F \rangle$.
+\begin{center}
+$\langle F \rangle \in 3SAT \iff f(\langle F \rangle) \in CLIQUE$
+\end{center}
+\end{proof}
+
 \end{document}
 
 

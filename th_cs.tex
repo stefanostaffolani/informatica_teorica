@@ -30,8 +30,6 @@
 \maketitle
 \tableofcontents
 \newpage
-\section{Puntate precedenti}
-qui metto quello che manca dalle lezioni precedenti....
 \section{La macchina di Turing}
 Una macchina di Turing \`e una tupla $\langle \sum, Q,q_0,H,\delta\rangle$. Dove: 
 \begin{enumerate}
@@ -860,8 +858,6 @@ derivarlo in maniera esplicita).
 \end{enumerate}
 Perci\`o, in conclusione, Knuth ritiene che P vs NP non sia un problema cos\`i interessante, o quantomeno \`e malposto.
 
-
-\newpage
 \section{Poly reduction}
 Siano $L$ e $L'$ linguaggi sull'alfabeto $\sum$ Diciamo che $L$ \`e \textbf{poly (mapping-)riducibile} a $L$, scritto $L' \leq_p L$, se esiste una TM che computa in tempo polinomiale una funzione (totale) $f: \sum^{*} \rightarrow \sum^{*}$ tale che \begin{center}
 $x \in L' \iff f(x) \in L$
@@ -887,7 +883,7 @@ f prende x e calcola se x appartiene ad L (in tempo poly) se s\`i ritorna b non 
 \end{proof}
 \textbf{Domanda}: Se $L \in NP$, $L^{-} \leq_p L$?
 \subsection{Formule e soddisfacibilit\`a}
-Una formula booleana \`e costuita a partire da variabili $x,y,z,...$, loro negazione $\lnot x, \lnot y, \lnot z,...$(chiamati collettivamente letterali) e combinazioni di letterali tramite congiunzione e disgiunzione ($\land, \lor $). Le variabili possono ricevere valore vero (1) o falso (0), da cui deriviamo il valore di verit\`a dell'intera formula.\\
+Una formula booleana \`e costuita a partire da variabili $x,y,z,...$, loro negazione $\lnot x, \lnot y, \lnot z,...$ (chiamati collettivamente letterali) e combinazioni di letterali tramite congiunzione e disgiunzione ($\land, \lor $). Le variabili possono ricevere valore vero (1) o falso (0), da cui deriviamo il valore di verit\`a dell'intera formula.\\
 Esempio: $(\lnot x \lor y) \land (x \lor z)$.\\
 Una formula \`e \textbf{soddisfacibile} se esiste un assegnamento di valore alle sue variabili che le dia valore 1. La formula di esempio \`e soddisfacibile, come testimoniato dall'assegnamento $x=1,y=1,z=0$.
 \subsubsection{3cnf}
@@ -921,8 +917,209 @@ L'idea della dimostrazione \`e tradurre formule in grafi, dove $f(\langle F \ran
 \begin{center}
 $\langle F \rangle \in 3SAT \iff f(\langle F \rangle) \in CLIQUE$
 \end{center}
+Sia F una formula con k clausole definita come:
+\begin{center}
+$F = (a_1 \lor b_1 \lor c_1) \land (a_2 \lor b_2 \lor c_2) ...$
+\end{center}
+Definiamo $f(\langle F \rangle) = \langle G, k \rangle$, dove G \`e il seguente grafo:
+\begin{itemize}
+\item \textbf{Nodi}: G ha 3k nodi, suddivisi in k gruppi  $t_1,...t_k$ chiamati triple. L'idea \`e che ogni tripla corrisponde ad una clausula di F: perci\`o etichettiamo ciascun nodo di G con il letterale corrispondente in F.
+\item \textbf{Archi}: gli archi di G collegano tutti le coppie $(n_1, n_2)$ di nodi tra di loro, eccetto (I) se $n_1$ e $n_2$ sono nella stessa tripla, oppure (II) $n_1$ ha etichetta $x$ e $n_2$ ha etichetta $\overline{x}$ per qualche variabile $x$.
+\end{itemize}
+Dimostraimo che questa costruzione soddisfa l'equivalenza.
+\begin{center}
+$\langle F \rangle \in 3SAT \rightarrow f(\langle F \rangle) \in CLIQUE$
+\end{center}
+Se F \`e soddisfacibile, almeno un letterale per ogni clausola \`e vero. Selezioniamo il nodo corrispondente nel grafo G: avremo cos\`i selezionato un nodo in ciascuna tripla. Questa selezione ci da un clique di grandezza k: notiamo infatti che (1) ci sono k triple e (2) ogni nodo selezionato \`e collegato agli altri della selezione, per virt\`u delle regole di costruzione di G.\\
+\begin{center}
+$\langle F \rangle \in 3SAT \leftarrow f(\langle F \rangle) \in CLIQUE$
+\end{center}
+Se $f(\langle F \rangle) = \langle G, k \rangle$ e G contiene un clique S di k nodi, definiamo un assegnamento A di valori di verit\`a alle variabili in F dando semplicemente valore vero ad ogni letterale che etichetta un nodo in S. Per costruzione di G, nota che (1) A non \`e  contraddittoria, perch\`e nodi etichettati con $non$ sono collegati e perci\`o non possono far parte di S; (2) ogni nodo di S appartiene ad una tripla diversa rispetto agli altri in S, perci\`o A assegna valore vero esattamente ad un letterale per clausola. Perci\`o A rende vera F. 
+\end{proof}
+\subsection{NP-completezza}
+Un linguaggio L \`e NP-completo se \`e in NP e ogni altro linguaggio L' in NP \`e poly-riducibile ad esso ($L' \leq_p L$).\\
+Esistono linguaggi NP-completi?\\
+$TMSAT = \{ \langle x,w,s,t \rangle |$ x $=code(M)$ per qualche TM $M$ e M accetta $\langle w, c \rangle$ per qualche c di lunghezza al pi\`u s, in tempo al pi\`u t.$ \}$\\
+Per ogni L' in NP, $L' \leq_p TMSAT$.\\
+Tuttavia, TMSAT non ci fa scoprire 'nulla di nuovo' su NP.
+\subsection{Il teorema di Cook-Levin}
+\begin{theorem}
+\label{th:cooklevin}
+SAT \`e NP-completo.
+\end{theorem}
+\begin{proof}
+Dimostrare che SAT é in NP é immediato: data una formula F, possiamo costruire una TM che scelga in maniera non-deterministica un assegnamento A, e accettare se A rende F vera.
+Rimane da dimostrare che ogni linguaggio L in NP é riducibile a SAT.
+Supponi che M sia la TM non-deterministica che decide L. L’idea é di tradurre qualsiasi stringa w in una formula $F_w$, tale che assegnamenti di valore A a $F_w$ rappresentano computazioni di M su w. In particolare, vogliamo che A renda $F_w$ vera se e solo se M accetta w (quindi w é in L). La parte 'laboriosa' (ma concettualmente semplice) \`e costruire $F_w$ con tale propriet\`a.
+Supponiamo che la TM $M=\langle \sum, Q, q_0, \delta, \{Y,N\}\rangle$ decida L in tempo $N^{k}$ per qualche costante k. Definiamo un \textbf{tableau} per M come una tabella $n^{k} \times n^{k}$ dove le righe descrivono le configurazioni di un ramo di computazione di M su input w. Il problema di stabilire se M accetta w \`e equivalente a stabilire se esiste un tableau accettante (cio\`e uno che arrivi ad una configurazione in uno stato finale).
+La formula $F_w$ sar\`a la congiunzione di quattro sottoformule.
+\begin{center}
+\includegraphics[scale=0.5]{tableau.png}
+\end{center}
+
+\begin{center}
+$F_w := F_{cell} \land F_{start} \land F_{move} \land F_{accept}$
+\end{center}
+Ricordiamo la propriet\`a che vogliamo garantire tramite la definizione di $F_w$:
+\begin{center}
+$F_w$ \`e soddisfacibile $\iff$ $\exists$ un tableau accettante ($\iff$ $\exists$ una computrazione accettante di M su w.)
+\end{center}
+L'insieme di variabili che appaiono in $F_w$ \`e dato da:
+\begin{center}
+$\{x_{i,j,s} | (i,j) \in n^k \times n^k \land s \in Q \cup \sum \cup \{\#\}\}$
+\end{center}
+Intuitivamente, se vogliamo assegnare valore 1 (vero) a $x_{i,j,s}$ se $cell[i,j]$ contiene il valore s, e 0 (false) altrimenti.
+La prima sottoformula di $F_w, F_{cell}$, assicura che per rendere vera $F_w$ dobbiamo rendere vera esattamente una variabile per ogni cella del tableau.
+\begin{center}
+$F_{cell} := \bigwedge_{1\leq i, j\leq n^{k}} [(\bigvee_{s \in C}x_{i,j,s}) \land (\bigvee_{s,t \in C, s \neq t} (\neg x_{i,j,s} \lor \neg x_{i,j,t}))]$
+\end{center}
+La seconda sottoformula di $F_w, F_{start}$, assicura che nel rendere vera $F_w$ il tableau considerato deve avere sulla prima riga la configurazione iniziale di una computazione di M su w.
+\begin{center}
+$F_{start} := x_{1,1,\#} \land x_{1,2,q_0} \land ... \land x_{1,n+2,w_n} \land x_{1,n+3, \emptyset} \land ... \land x_{1,n^{k}-1} \land x_{1,n^{k},\#}$
+\end{center}
+ovvero:
+\begin{center}
+\includegraphics[scale=0.5]{tableau2.png}
+\end{center}
+La quarta sottoformula di $F_w, F_{accept}$, assicura che nel rendere vera $F_w$ almeno una delle configurazioni rappresentate nel tableau raggiunge lo stato accettante Y.
+\begin{center}
+$F_{accept} := \lor_{1\leq i,j\leq n^{k}} x_{i,j,Y}$
+\end{center}
+Rimane da definire la terza sottoformula di $F_w, F_{move}$, la quale assicura che $F_w$ pu\`o essere resa vera solo se i simboli nelle varie celle del tableau descrivono una computazione di M su w che rispetti la funzione di transizione $\delta$ di M. La computazione di una TM \`e locale, per cui \`e sufficiente esprimere una condizione che riguardi porzioni del tableau di dimensione $2 \times 3$. Le chiamiamo \textbf{finestre}. Per esempio, supponiamo che $\delta$ includa le transizioni:
+\begin{center}
+$\delta(q_1, a) = \{(q_1,b,\rightarrow)\}$\\
+$\delta(q_1, b) = \{(q_2,c,\leftarrow), (q_2,a,\rightarrow)\}$
+\end{center}
+Le seguenti sono finestre ammesse nel tableau:
+\begin{center}
+\includegraphics[scale=0.5]{finestre_tableau1.png}
+\end{center}
+Le seguenti sono finestre non ammesse nel tableau:
+\begin{center}
+\includegraphics[scale=0.5]{finestre_tableau1.png}
+\end{center}
+\begin{center}
+$F_{move} :=  \bigwedge_{1 < i \leq n^{k}, 1 < j < n^{k}} (\bigvee_{a_1,...,a_6} x_{i,j-1,a_1} \land x_{i,j,a_2} \land x_{i,j+1,a_3} \land x_{i+1,j-1,a_4} \land x_{i+1,j,a_5} \land x_{i+1,j+1,a_6}) $
+\end{center}
+%(\bigvee_{a_1,...,a_6} x_{i,j-1,a_1} \land x_{i,j,a_2} \land x_{i,j+1,a_3} \land x_{i+1,j-1,a_4} \land x_{i+1,j,a_5} \land x_{i+1,j+1,a_6})  1\lt i \leq n^{k}, 1 \lt j \lt n^{k} 
+%Da verificare:
+%\begin{enumerate}
+%\item $F_w$ \`e soddisfacibile $\iff$ $\exists$ un tableau accettante.
+%\end{enumerate}
+Abbiamo dunque verificato che $F_w$ \`e soddisfacibibile $\iff$ $\exists$ un tableau accettante. Dobbiamo ora dimostrare che la costruzione di $F_w$ avviene in tempo polinomiale rispetto alla lunghezza di w.
+\begin{enumerate}
+\item Il tableau \`e una tabella $n^k \times n^k$, perci\`o contiene $n^{2k}$ celle. Ogni cella contiene uno tra $m$ simboli diversi, dove m \`e la cardinalit\`a di $Q \cup \sum \cup \{\#\}$. Perci\`o il numero di  variabili $x_{i,j,s}$ \`e $m \times n^{2k}$. In notazione Big-O, $O(n^{2k})$.
+\item $F_{cell}$ contiene una sottoformula di lunghezza costante $\forall x_{i,j,s}$, perci\`o la sua lunghezza \`e $O(n^{2k})$.
+\item $F_{start}$ contiene una sottofrmula di lunghezza costante per ognuna delle $n^{k}$ celle nella prima riga, perci\`o la sua lunghezza \`e $O(n^{k})$.
+\item Sia $F_{move}$ che $F_{accept}$ contengono una sottofrmula di lunghezza costante per ogni cella del tableau, perci\`o la loro lunghezza \`e $O(n^{2k})$
+\item Perci\`o la lunghezza complesivadi $F_w$ \`e polinomiale: $O(n^{2k}) + O(n^k) + O(n^{2k}) + O(n^{2k}) = O(n^{2k})$
+\end{enumerate}
+Ora che abbiamo appurato che generare ogni carattere di $F_w$ richiede tempo polinomiale, non \`e difficile ottenere un TM che costruisce in tempo polinomiale $F_w$ nel modo descritto, a partire dalla definiaione di M e di w.
 \end{proof}
 
+\begin{corollary}
+Da \ref{th:cooklevin} se SAT \`e in P, allora $P=NP$.
+\end{corollary}
+
+\subsection{Altri problemi NP-completi}
+\begin{theorem}
+\label{th:3sat_np}
+3SAT \`e NP-completo.
+\end{theorem}
+\begin{corollary}
+\ref{th:3sat_np}
+CLIQUE \`e NP-completo.
+\end{corollary}
+Altri esempi:
+\begin{itemize}
+\item TSP
+\item olorare un grafo con k colori diversi
+\item vincere a battaglia navale
+\item fare mining di bitcoin in maniera ottimale
+\item Serializzabilit\`a della conologia di un database
+\end{itemize}
+\newpage
+\section{Complessit\`a di Spazio}
+Sia $M$ una TM che si ferma su tutti gli input. La sua \textbf{complessit\`a di spazio} \`e definita come la funzione $t: \mathbb{N} \rightarrow \mathbb{N}$, dove $t(n)$ \`e il massimo numero di celle del nastro che la testina di M vista su arbitrari input di lunghezza $n$.\\
+\begin{center}
+Data una funzione $t:\mathbb{N} \rightarrow \mathbb{N}$, definiamo la calsse di \textbf{complessit\`a } (di spazio) \textbf{SPACE(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in spazio $O(t(n))$.
+\end{center}
+In modo analogo, considerare le TM non-deterministiche ci d\`a una classe  \textbf{NSPACE(t(n))}.
+
+
+\subsection{PSPACE e NSPACE}
+PSPACE \`e la classe dei linguaggi decidibili da una TM (deterministica, a un nastro) in spazio \textbf{polinomiale}. Ovvero:
+\begin{center}
+$PSPACE = \bigcup_k SPACE(n^{k})$
+\end{center}
+Analogamente, abbiamo:
+\begin{center}
+$NPSPACE = \bigcup_k NPSPACE(n^{k})$
+\end{center}
+\subsection{(N)P e PSPACE}
+Il fatto che P sia inclusa in PSPAE \`e ovvio per definizione. \`E meno ovvio (ma verop) che NP sia inclusa in PSPACE. Dimostriamolo come corollario del seguente lemma.
+\begin{lemma}
+\label{lemma:2}
+$SAT \in PSPACE$.
+\end{lemma}
+\begin{proof}
+Considera una TM $M$ definita nel seguente modo:
+Su input $\langle F \rangle$, dove F \`e una formula booleana:
+
+\begin{enumerate}
+\item $\forall\ assegnamento\ A$ di valore alle variabili di F:
+\item Valuta F rispetto ad A. Se il valore di F \`e 1 (vero), accetta, se no rigetta.
+\end{enumerate}
+Ogni iterazione di $1$ pu\`o essere eseguita in spazio lineare rispetto a $\langle F \rangle$, dal momento che l'assegnamento avr\`a lunghezza $O(m)$ dove m \`e il numero di variabili in n. Nota che M nella sua interezza lavora in spazio $O(m)$: infatti possiamo eseguire ogni iterazione di $1$ sulla stessa porzione di nastro, una volta cancellato il risultato dell'iterazione precedente.
+\end{proof}
+\begin{corollary}
+NP \`e inclusa in PSPACE.
+\end{corollary}
+\begin{proof}
+Sia L in NP. Per il teorema di Cook-Levin, $L \leq_p SAT$. Per \ref{lemma:2} abbiamo che SAT \`e in PSPACE. Unendo questi due fatti, possiamo facilmente dimostrare che L \`e in PSPACE.
+\end{proof}
+\subsection{Un problema PSPACE completo}
+Un linguaggio L \`e PSPACE-completo se \`e in PSPACE e ogni altro linguaggio L' in PSPACE \`e poly-riducibile ad esso ($L' \leq_p L$).
+
+\begin{center}
+$TQBF = \{\langle F \rangle | F$ \`e un enunciato booleano vero.$ \}$
+\end{center}
+\begin{theorem}
+TQBF \`e PSPACE-completo.
+\end{theorem}
+\begin{proof}
+Verifichiamo prima che TQBF sia in PSPACE. Ecco un algoritmo ALG che lo decide:\\
+Su input $\langle F \rangle$, dove F \`e un enunciato booleano:
+\begin{enumerate}
+\item Se F non contiene quantificatori, allora contiene solo costanti (nessuna variabile). Valutiamola e accettiamola $\iff$ \`e vera.
+\item Se $F = \exists x G$, chiama ALG ricorsivamente su G, prima valutando $x = 1$, poi valutando $x = 0$. Se almeno una computazione \`e accettante, accetta. Altrimenti, rigetta.
+\item Se $F = \forall x G$, chiama ALG ricorsivamente su G, prima valutando $x = 1$, poi valutando $x = 0$, se entrambi le computazioni sono accettanti, accetta. Altrimenti rigetta.
+\end{enumerate}
+Questo algoritmo decide TQBF. Inoltre il numero delle chiamate ricorsive \`e al pi\`u il numero di variabili in F. Ogni chiamata ha bisogno di memorizzare solo il valore di una variabile, perci\`o lo spazio utilizzato \`e $O(m)$, dove m \`e il numero di variabili in F. In conclusione, TQBF \`e in PSPACE. Vogliamo ora dimostrare che $L \leq_p TQBF$. Chiamiamo M la TM che decide L in spazio polinomiale, diciamo $n^k$ per qualche costante k. Per dimostrare $L \leq_p TQBF$, \`e sufficiente costruire in tempo polinomiale una formula $F_w$ tale che:
+\begin{center}
+M accetta w $\iff$ $F_w$ \`e un enunciato booleano vero.
+\end{center}
+Per costruire un tale $F_w$ costruiamo prima un tipo di formula $F_{c,c',t}$ pi\`u generale con la seguente propriet\`a.
+\begin{center}
+M pu\`o andare dalla configurazione c alla configurazione c' in al pi\`u t passi  \\$\iff$ \\ $F_{c,c',t}$ \`e un enunciato booleano vero.
+\end{center}
+Baster\`a definire $F_w$ come $F_{c_{init},c_{acc},t}$, dove $c_{init}$ \`e la configuarzione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale che M non ha pi\`u di t configurazioni possibili su input di lunghezza n. In $F_{c,c',t}$ $c$ e $c'$ saranno insiemi di tali variabili. Ciascuno codifica una configurazione (riga del tableau, vedi sopra teorema di Cook-Levin).
+Costruiamo $F_{c,c',t}$ per induzione su t. Se $t=1$, abbiamo solo due casi:
+\begin{enumerate}
+\item la computazione ha 0 passi. Costruiamo un enunciato $F_1$ che esprime (nel modo visto nel teorema di Cook-Levin \ref{th:cooklevin}) che $cell[i,j]$ in $c$ ha lo stesso valore di $cell[i,j]$ in $c'$.
+\item la computazione ha 1 passo. Costruiamo un enunciato $F_2$ che esprime che la configurazione $c'$ \`e raggiungibile in un passo dalla configurazione $c$ (come visto nel teorema di Cook-Levin \ref{th:cooklevin}, tramite finestre).
+\begin{center}
+$F_{c,c',1}$ sar\`a definita come $F_1 \lor F_2$.
+\end{center}
+\item Se $t > 1$, un'idea potrebbe essere di definire $F_{c,c',t}$ come $\exists m_1 (F_{c,m,\frac{t}{2}} \land F_{m_1, c', \frac{t}{2}})$. Qui $\exists m_1$ abbrevia $\exists x_1,...,x_l$, dove $x_1,...,x_l$ sono le variabili che codificano la configurazione di $m_1$. Le sottoformule $F_{c,m_1,\frac{t}{2}}$ e $F_{m_1,c',\frac{t}{2}}$ sono definite per ipotesi induttiva. Il significato \`e quello giusto, ma la formula risultante ha lunghezza esponenziale in $n$. Infatti, ogni passo della costruzione induttiva di $F_{c,c',t}$ dimezza $t$, ma raddoppia la lunghezza della formula. PEr cui nel caso che ci interessa $t = 2^{dn^k}$, la lunghezza di $F_{c,c',t}$ sar\`a esponenziale in $n$. Con uso sapiente dei quantificatori otteniamo una formula della lunghezza giusta:
+\begin{center}
+$F_{c,c',t} := \exists m_1 \forall (c_3, c_4) \in \{(c,m_1),(m_1,c')\} F_{c_3,c_4,\frac{t}{2}}$
+\end{center}
+Qui $\forall x \in {y,z}$ \`e notazione per $\forall x ((x = y \lor y = z) \implies ...)$. Intuitivamente, la formula dice che le variabili in $c_3$ e $c_4$ possono avere lo stesso valore che le variabili in $c$ e $m_1$, oppure lo stesso che le variabili in $m_1$ e $c'$. La nuova definizione ha lo stesso significato della precedente, ma ogni passo induttivo aggiunge una parte di lunghezza $O(n^k)$ (la quantificazione su $c_3, c_4$), e vi sono $log(2^{dn^k}) = O(n^k)$ passi induttivi. La sua lunghezza \`e dunque polinomiale in n.
+\end{enumerate}
+Abbiamo cos\`i concluso la definizione di $F_{c,c',t}$ per induzione su t. Per concludere basta definire $F_w$ come $F_{c_{init}, c_{acc}, t}$ dove $c_{init}$ \`e la configurazione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale cche M non ha pi\`u di t configurazioni possibili su input di lunghezza $n$.
+\end{proof}
+\subsection{Riflessioni sul teorema}
 \end{document}
 
 

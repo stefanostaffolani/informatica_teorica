@@ -1038,7 +1038,6 @@ Altri esempi:
 \item fare mining di bitcoin in maniera ottimale
 \item Serializzabilit\`a della conologia di un database
 \end{itemize}
-\newpage
 \section{Complessit\`a di Spazio}
 Sia $M$ una TM che si ferma su tutti gli input. La sua \textbf{complessit\`a di spazio} \`e definita come la funzione $t: \mathbb{N} \rightarrow \mathbb{N}$, dove $t(n)$ \`e il massimo numero di celle del nastro che la testina di M vista su arbitrari input di lunghezza $n$.\\
 \begin{center}
@@ -1120,6 +1119,69 @@ Qui $\forall x \in {y,z}$ \`e notazione per $\forall x ((x = y \lor y = z) \impl
 Abbiamo cos\`i concluso la definizione di $F_{c,c',t}$ per induzione su t. Per concludere basta definire $F_w$ come $F_{c_{init}, c_{acc}, t}$ dove $c_{init}$ \`e la configurazione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale cche M non ha pi\`u di t configurazioni possibili su input di lunghezza $n$.
 \end{proof}
 \subsection{Riflessioni sul teorema}
+\begin{enumerate}
+\item Il fatto che TQBF sia PSPACE-completo ci da un’indicazione di che tipo di problemi siano in PSPACE.
+\item Il problema di trovare una strategia vincente nei giochi posizionali (scacchi, dama, Go, ...) può essere espresso mediante un’alternanza di quantificatori: per ogni mossa dell’avversario, esiste una mia mossa tale che etc.
+\item Non é dunque sorprendente che questa tipologia di problemi é solitamente dimostrabile essere in PSPACE attraverso la costruzione di una Poly riduzione a TQBF.
+\item Molti problemi in robotica possono essere formulati come giochi, dove l’avversario é l’ambiente in cui si muove il robot.
+\end{enumerate}
+\subsection{Il teorema di Savitch}
+\begin{theorem}
+Per qualsiasi funzione $t: \mathbb{N} \rightarrow \mathbb{N}$, abbiamo:
+\begin{center}
+$NSPACE(t(n)) \subset SPACE(t^{2}(n))$
+\end{center}
+\end{theorem}
+\begin{proof}
+Supponi che $M$ sia una TM non-deterministica che decida un linguaggio $L$ in spazio $t(n)$ rispetto alla lunghezza $n$ dell'input. Vogliamo costruire una TM deterministica $M'$ che decide $L$ in spazio $t^{2}(n)$.\\
+La costruzione di $M'$ usa la stessa idea utilizzata per dimostrare che TQBF \`e PSPACE-completo. Definiremo una procedura REACH che lavora in spazio $O(t^{2}(n))$, tale che:
+\begin{center}
+$M$ pu\`o andare dalla configurazione $c$ alla configurazione $c'$ in al pi\`u $t$ passi. \\ $\iff$ \\ $REACH(c,c',t)$ d\`a output ACCETTA.
+\end{center}
+Definiremo poi $M'$ come la TM che su input di lunghezza $n$ esegue $REACH(c_{init}, c_{acc}, 2^{dt(n)})$\footnote{scegli $d$ tale che M non ha pi\`u di $2^{dt(n)}$ configurazioni possibili su input di lunghezza $n$,} e accetta se l'output \`e ACCETTA.\\
+REACH \`e definita nel modo seguente. Su input $c,c',T$:
+\begin{enumerate}
+\item Se $T=1$, verifica se $c=c'$ o se la configurazione $c'$ \`e raggiungibile da $c$ in un passo di computazione di $M$. ACCETTA se almeno uno dei due test ha successo, se no RIGETTA.
+\item Se $T>1$, $\forall c_m$ configurazione di $M$ che usa spazio $t(n)$:
+\item Esegui $REACH(c,c_m,\frac{T}{2})$
+\item Esegui $REACH(c_m,c,\frac{T}{2})$
+\item Se entrambi hanno dato output ACCETTA, ACCETTA.
+\item Se nonn ha accettato in nessun passo precedente, RIGETTA.
+\end{enumerate}
+Rimane da dimostrare che $REACH$ lavora in spazio $O(t^{2}(n))$.\begin{itemize}
+\item La ricorsione in $2$ divide ogni volta T per due. Dunque per $T=2^{dt(n)}$ ci sono $O(log 2^{dt(n)}) = O(t(n))$ chiamate ricorsive.
+\item Ciascuno dei passi $3$ e $4$ usa spazio $O(t(n))$. Quando abbiamo eseguito $3$, possiamo cancellare ed eseguire $4$.
+\item Pertanto $REACH$ nel suo complesso richiede spazio $O(t(n)) \times O(t(n)) = O(t^{2}(n))$.
+\end{itemize}
+Come anticipato, definiamo $M'$ come la TM che su input di lunghezza $n$ esegue $REACH(c_{init}, c_{acc}, 2^{dt(n)})$ e accetta se l'output \`e ACCETTA. Da momento che $REACH(c_{init}, c_{acc}, 2^{dt(n)})$ lavora in tempo $O(t^{2}(n))$ abbiamo dimostrato che $L$ \`e in $SPACE(t^{2}(n))$.
+\end{proof}
+\`E soprendente che $PSCAPE=NPSPACE$, oppure no?
+\begin{center}
+\includegraphics[scale=0.5]{PSPACE1.png}
+\end{center}
+
+\begin{corollary}
+$NSPACE = PSPAPE$
+\end{corollary}
+
+\section{Gerarchie e problemi intrattabili}
+La nostra intuizione é che non tutte le classi di complessità di tempo e di spazio corrispondono allo stesso insieme di problemi. Più risorse computazionali sono allocate, più dovrebbe essere grande il numero di problemi che é possibile calcolare. Per esempio, una TM dovrebbe poter risolvere strettamente più problemi in tempo $n^3$ che in tempo $n^2$. I risultati che dimostrano tali inclusioni strette sono detti teoremi di gerarchia. Tali risultati hanno come conseguenza che alcuni problemi non appartengono a classi come P o PSPACE. Si tratta dunque di problemi \textbf{intrattabili}: nonostante siano decidibili, non esistono algoritmi efficienti.
+\subsection{Notazione small-O}
+Date due funzioni $f,g: \mathbb{N} \rightarrow \mathbb{N}$, scriviamo $f(n) = o(g(n))$ e diciamo che $g(n)$ \`e un \textbf{bound superiore asintotico stretto} se esistono $c \in \mathbb{N}$ e $m \in \mathbb{N}$ tali che $\forall n,m. n \geq m$
+\begin{center}
+$f(n) < c \times g(n)$
+\end{center}
+In altre parole, $g(n)$ é strettamente più grande di $f(n)$ per $n$ sufficientemente grandi e modulo un fattore costante $c$.
+\subsection{Funzioni costruibili}
+$f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n) \geq O(log(n))$, e SPACE-costruibile se possiamo calcolare in spazio $O(f(n))$ la funzione:
+\begin{center}
+$ 1^{n} \longmapsto \langle f(n) \rangle$
+\end{center}
+dove $\langle f(n) \rangle$ \`e la codifica binaria di $f(n)$.\\
+Tutte le misure più comuni per misurare la complessità sono SPACE-costruibili.
+\subsubsection{Esempio}
+$n^2$ é SPACE-costruibile. La TM che lo testimonia riceve in input $1^n$ , traduce in binario, $\langle n \rangle$, contando il numero degli 1, e ritorna come output $\langle n^2 \rangle$ usando qualsiasi metodo standard per moltiplicare $n$ con sé stesso. Lo spazio utilizzato é $O(n)$.
+
 \end{document}
 
 

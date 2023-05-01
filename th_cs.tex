@@ -271,57 +271,6 @@ La nostra dimostrazione del fatto che $HALT^{-}$ non sia riconoscibile ha la seg
 Se potessimo riconoscere L, allora potremmo decidere L'.\\ Poich\`e non \`e decidibile, allora non possiamo riconoscere L.
 \end{center}
 Come ridurre L a L'? Vedremo come questa intuizione possa essere formalizzata in una tecnica di dimostrazione, che ci permette di ridurre problemi tra di loro al fine di dimostrarne la non calcolabilit\`a.
-\section{esercitazione 1 Marzo 2023}
-\subsection{Quesito 1}
-Un problema che vogliamo risolvere usando uno strumento di calcolo puo' essere espresso come un problema di decisione. Questi problemi hanno la componente dei dati e la risposta SI/NO. Per poter risolvere questi problemi con un calcolatore e' necessario codificare un problema di decisinoe come la funzione caratteristica di un linguaggio formale.
-
-Dato a e b dati le cui codifiche sono code(a) e code(b) $\in \sum^*$
-Le proprieta' che la codifica deve rispettare sono: 
-\begin{enumerate}
-\item $a \ne b \ code(a) \neq code(b)$
-\item deve essere verificabile che se x $\in \sum^*$ \`e $code(a)$ per qualche $a$
-\item deve essere calcolabile a partire da $code(a).$
-\end{enumerate}
-\subsection{Problema 2.1}
-Alfabeto $\sum = \{0,1\}$
-La TM deve accettare l'input quando esso contiene 101 e rifiutare altrimenti.\\
-\begin{tikzpicture}[shorten >=2pt,node distance=4cm,auto, on grid]
-
-  \node[state,initial]   (1)  {$q_0$};
-  \node[state, yshift=-1cm] (2) [right=of 1]  {$q_1$};
-  \node[state, yshift=1cm] (3) [right=of 2]  {$q_2$};
-  \node[state,accepting] (4) [right=of 3]  {$Y$};
-  \node[state,accepting] (5) [below=of 2]	{$N$};
-
-  \path[->]
-  	(1) edge [loop above] node {$0,0,\rightarrow$} (1)
-  	(1) edge [bend right] node {$\emptyset,\emptyset,\rightarrow$} (5)
-	(1) edge  node {$1,1,\rightarrow$} (2)
-	(2) edge [loop above] node {$1,1,\rightarrow$} ()  	
-  	(2) edge  node {$\emptyset,\emptyset,\rightarrow$} (5)
-  	(2) edge  node {$0,0,\rightarrow$} (3)
-  	(3) edge [] node {$1,1,\rightarrow$} (4)
-  	(3) edge [bend right, above] node {$0,0,\rightarrow$} (1)
-  	(3) edge [bend left] node {$\emptyset,\emptyset,\rightarrow$} (5)
-  	;
-  	
-\end{tikzpicture}
-
-\subsection{Problema 2.2}
-\begin{tikzpicture}[shorten >=1pt,node distance=5cm,auto, on grid]
-	\node [state, initial] (1) {$q_0$};
-	\node [state] (2) [right=of 1] {$q_1$};
-	\node [state, accepting, yshift=3cm] (3) [below=of 1] {$N$};
-	\node [state, accepting, yshift=3cm] (4) [below=of 2] {$Y$};
-	
-	\path[->]
-		(1) edge [bend right] node  {$1,1,\rightarrow$} (2)
-		(2)	edge [bend right] node  {$1,1,\rightarrow$} (1)
-		(1) edge node  {$\emptyset,\emptyset,\rightarrow$} (3)
-		(2) edge node  {$\emptyset,\emptyset,\rightarrow$} (4)
-		;
-
-\end{tikzpicture}
 
 \section{Mapping-reduction}
 Abbiamo dimostrato che 
@@ -696,7 +645,7 @@ Assumiamo il quadrante positivo del piano sia diviso in celle identificate dalle
 \begin{enumerate}
 \item $f(1,1) = t_0$
 \item $\forall n,m \in \mathbb{N}.(f(n,m),f(n,m+1)) \in V$
-\item $\forall n,m \in \mathbb{N}.(f(n,m),f(n+1,m)) \in V$
+\item $\forall n,m \in \mathbb{N}.(f(n,m),f(n+1,m)) \in H$
 \end{enumerate}
 \subsection{Problemi di tiling}
 Mostreremo che il tiling problem \`e irriconoscibile mostrando che il complemento di $ETH$ si riduce a esso.
@@ -1181,6 +1130,148 @@ dove $\langle f(n) \rangle$ \`e la codifica binaria di $f(n)$.\\
 Tutte le misure più comuni per misurare la complessità sono SPACE-costruibili.
 \subsubsection{Esempio}
 $n^2$ é SPACE-costruibile. La TM che lo testimonia riceve in input $1^n$ , traduce in binario, $\langle n \rangle$, contando il numero degli 1, e ritorna come output $\langle n^2 \rangle$ usando qualsiasi metodo standard per moltiplicare $n$ con sé stesso. Lo spazio utilizzato é $O(n)$.
+\subsection{Gerarchia di spazio}
+\begin{theorem}
+\label{gerarchiaSpazio}
+Per ogni funzione $f: \mathbb{N} \rightarrow \mathbb{N}$ SPACE-costruibilie, esiste un linguaggio $L$ decidibile in spazio $O(f(n))$ ma non in spazio $o(f(n))$.
+\end{theorem}
+\begin{proof}
+Il linguaggio L verrà definito non da una proprietà ma da un algoritmo ALG, che usa spazio $O(f(n))$ ed é costruito in modo tale da assicurare che L é diverso da ogni linguaggio decidibile in spazio $o(f(n))$. Come ci riesce? Per diagonalizzazione. Su input code(M), ALG simula M su code(M) in una porzione di nastro f(n), e accetta se e solo se M ferma e rigetta. Da notare che:
+\begin{enumerate}
+\item M potrebbe usare più di f(n) spazio per n sufficientemente piccolo;
+\item  La simulazione di M su code(M) potrebbe richiedere più di f(n) spazio, e quindi essere rigettata a prescindere.
+\end{enumerate}
+Definiamo ALG. Su input di lunghezza $n$:
+\begin{enumerate}
+\item Calcola f(n), e contrassegna tale quantità di nastro. Se i passi successivi provano ad usare più di f(n) celle, rigetta.
+\item Se $w \neq code(M)10*$\footnote{Aggiungiamo una stringa $s \in 10*$ a code(M) affinch\`e la lunghezza dell'input diventi grande abbastanza perch\`e valga il bound asintotico $o(f(n))$ sullo spazio di computazione di M.} per qualche TM M, rigetta.
+\item Simula M su w. Se non ha concluso dopo $2^{f(n)}$\footnote{Vogliamo assicurarci che ALG termini sempre.} passi, rigetta.
+\item Se M accetta, rigetta. Se M rigetta, accetta.
+\end{enumerate}
+ALG richiede spazio $O(f(n))$. Definiamo $L$ come il linguaggio
+\begin{center}
+$L = \{w\ |\ ALG\ accetta\ w\}$
+\end{center}
+Pertanto L \`e decidibile in spazio $O(f(n))$.  Dobbiamo dimostrare che non esiste TM che lo decida in spazio $o(f(n))$.\\
+Per contraddizione, supponiamo che esista N tale che N decide L in
+spazio $g(n) = o(f(n))$.
+Per costruzione, ALG simula N in spazio $d \times g(n)$ per qualche
+costante d. Poiché $g(n) = o(f(n))$, esiste una costante m tale che, per
+tutti gli $n \geq m$, $(d \times g(n)) < f(n)$.
+Perciò la simulazione da parte di ALG di N su input code(N)10 m
+andrà a buon fine nello spazio allocato f(n). Abbiamo:
+\begin{center}
+$code(N)10^{m} \in L \iff$ ALG accetta $code(N)10^{m} \iff$ N rigetta $code(N)10^{m}$
+\end{center}
+Perci\`o non pu\`o decidere L, contraddizione. 
+\end{proof}
+\begin{corollary}
+Da \ref{gerarchiaSpazio} $\forall k,j. k < j$:
+\begin{center}
+$SPACE(n^{k}) \subset SPACE(n^{j})$
+\end{center}
+\end{corollary}
+\begin{corollary}
+$SPACE(log(n)) \subset SPACE(n)$
+\end{corollary}
+Definiamo $EXPSPACE =  \bigcup_{k}SPACE(2^{n^{k}})$
+\begin{corollary}
+$PSPACE \subset EXPSPACE$
+\end{corollary}
+Quindi i problemi EXPSPACE-completi sono \textbf{intrattabili} (non hanno algoritmi PSPACE).
+
+\subsection{Gerarchia di tempo}
+$f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n) \geq O(n \times log(n))$, \`e TIME-costruibile se possiamo calcorare in tempo $O(f(n))$ la funzione
+\begin{center}
+$1^{n} \longmapsto \langle f(n) \rangle$
+\end{center}
+dove $\langle f(n) \rangle$ \`e la codifica binaria di $f(n)$.
+\begin{theorem}
+Per ogni $f:\mathbb{N} \rightarrow \mathbb{N}$ TIME-costruibile, esiste un linguaggio L decidibile in tempo $O(f(n))$ ma non in tempo $o(f(n) / log f(n))$.
+\end{theorem}
+\begin{proof}
+La dimostrazione é simile a quella data per la gerarchia di spazio. Il fattore $log f(n)$ é dovuto al fatto che la simulazione di una TM richiede un overhead di tempo logaritmico (mentre nel caso dello spazio, l’overhead era costante). Per dettagli confrontare Sipser, capitolo 8.
+\end{proof}
+
+\begin{corollary}
+$\forall k,j. 1<k<j$: \begin{center}
+$TIME(n^{k}) \subset TIME(n^{j})$
+\end{center}
+\end{corollary}
+\begin{corollary}
+$P \subset EXPTIME$
+\end{corollary}
+Quindi i problemi EXPTIME-completi sono \textbf{intrattabili} (non hanno algoritmi polinomiali).
+\subsection{Considerazioni finali}
+I teoremi di gerarchia sono entrambi basati sull’uso della diagonalizzazione per separare classi di complessità. In astratta, qualsiasi tecnica detta di diagonalizzazione si basa su due principi:
+\begin{enumerate}
+\item la possibilità di rappresentare TM come stringhe.
+\item L’abilità di una TM di simulare un’altra TM di cui riceve il codice come input senza `troppo’ overhead in termini di spazio e tempo.
+\end{enumerate}
+Quanto lontano ci può portare la diagonalizzazione? Perché non la utilizziamo per dimostrare che $P \neq NP$?\\
+Consideriamo una variante della TM: una TM con oracolo $O \subseteq \{0,1\}^{*}$ può, in qualunque momento della computazione, chiedere $w \in O?$ e ricevere risposta in tempo/spazio costante. L’osservazione che ci interessa é che, indipendentemente dalla scelta di $O$, i due presupposti indicati per la
+diagonalizzazione valgono anche per le TM con oracolo $O$. Perciò i risultati dimostrati usando la diagonalizzazione (ad esempio, i teoremi di gerarchia) valgono anche per le TM con oracolo.
+\begin{theorem}[Baker, Gill, Solovay 1975]
+Esistono oracoli $O$ e $O'$ tali che $P^{O}=NP^{O}$ e $P^{O'} \neq NP^{O'}$.\footnote{Classe dei problemi decidibili in tempo polinomiale da una TM con oracolo (deterministica se P, non-deterministica se NP).}
+\end{theorem}
+Perciò, se mai trovassimo una risposta al quesito $P=NP$?, o non usa la diagonalizzazione, o la utilizza insieme ad altre assunzioni che non valgono per TM con oracolo.\\
+Tali risultati si chiamano \textbf{non-relativizzanti} (nel senso che non relativizzano a TM con oracolo). Per esempio i teoremi di gerarchia relativizzano, il teorema di Cook-Levin (\ref{th:cooklevin}) no.\\
+In conclusione, la diagonalizzazione é un metodo potente,
+ma con limiti. Per attaccare domande come $P=NP$?, non é sufficiente simulare computazioni, trattandole come ‘scatole nere’. Dobbiamo fare un’analisi più concreta, che riguardi l’effettivo contenuto della computazione\\.
+Queste osservazioni hanno portato allo studio di modelli di calcolo differenti, dove l’analisi degli algoritmi é più flessibile. Un esempio importante sono i circuiti booleani.
+\newpage
+
+\section{esercitazione 1 Marzo 2023}
+\subsection{Quesito 1}
+Un problema che vogliamo risolvere usando uno strumento di calcolo puo' essere espresso come un problema di decisione. Questi problemi hanno la componente dei dati e la risposta SI/NO. Per poter risolvere questi problemi con un calcolatore e' necessario codificare un problema di decisinoe come la funzione caratteristica di un linguaggio formale.
+
+Dato a e b dati le cui codifiche sono code(a) e code(b) $\in \sum^*$
+Le proprieta' che la codifica deve rispettare sono: 
+\begin{enumerate}
+\item $a \ne b \ code(a) \neq code(b)$
+\item deve essere verificabile che se x $\in \sum^*$ \`e $code(a)$ per qualche $a$
+\item deve essere calcolabile a partire da $code(a).$
+\end{enumerate}
+\subsection{Problema 2.1}
+Alfabeto $\sum = \{0,1\}$
+La TM deve accettare l'input quando esso contiene 101 e rifiutare altrimenti.\\
+\begin{tikzpicture}[shorten >=2pt,node distance=4cm,auto, on grid]
+
+  \node[state,initial]   (1)  {$q_0$};
+  \node[state, yshift=-1cm] (2) [right=of 1]  {$q_1$};
+  \node[state, yshift=1cm] (3) [right=of 2]  {$q_2$};
+  \node[state,accepting] (4) [right=of 3]  {$Y$};
+  \node[state,accepting] (5) [below=of 2]	{$N$};
+
+  \path[->]
+  	(1) edge [loop above] node {$0,0,\rightarrow$} (1)
+  	(1) edge [bend right] node {$\emptyset,\emptyset,\rightarrow$} (5)
+	(1) edge  node {$1,1,\rightarrow$} (2)
+	(2) edge [loop above] node {$1,1,\rightarrow$} ()  	
+  	(2) edge  node {$\emptyset,\emptyset,\rightarrow$} (5)
+  	(2) edge  node {$0,0,\rightarrow$} (3)
+  	(3) edge [] node {$1,1,\rightarrow$} (4)
+  	(3) edge [bend right, above] node {$0,0,\rightarrow$} (1)
+  	(3) edge [bend left] node {$\emptyset,\emptyset,\rightarrow$} (5)
+  	;
+  	
+\end{tikzpicture}
+
+\subsection{Problema 2.2}
+\begin{tikzpicture}[shorten >=1pt,node distance=5cm,auto, on grid]
+	\node [state, initial] (1) {$q_0$};
+	\node [state] (2) [right=of 1] {$q_1$};
+	\node [state, accepting, yshift=3cm] (3) [below=of 1] {$N$};
+	\node [state, accepting, yshift=3cm] (4) [below=of 2] {$Y$};
+	
+	\path[->]
+		(1) edge [bend right] node  {$1,1,\rightarrow$} (2)
+		(2)	edge [bend right] node  {$1,1,\rightarrow$} (1)
+		(1) edge node  {$\emptyset,\emptyset,\rightarrow$} (3)
+		(2) edge node  {$\emptyset,\emptyset,\rightarrow$} (4)
+		;
+
+\end{tikzpicture}
 
 \end{document}
 

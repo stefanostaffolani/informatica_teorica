@@ -104,38 +104,52 @@ Un linguaggio (un problema di decisione) \`e \textbf{riconoscibile} se c'\`e una
 $Decidibile \implies Riconoscibile$
 \end{center}
 \section{WHILE un linguaggio di programmazione di alto livello	}
-Turing-completo: quando il suo potere espressivo e' equivalente ad una macchina di Turing. 
-Quindi quando qualcuno scrive un nuovo linguaggio deve preoccuparsi del fatto che esso sia Turing-complete.
-Non tutti i linguaggi sono Turning-Completi. Ad esempio i domain specific language.
+Un linguaggio \`e Turing-completo quando il suo potere espressivo e' equivalente ad una macchina di Turing. 
+Quindi quando qualcuno progetta un nuovo linguaggio deve preoccuparsi del fatto che esso sia Turing-completo.
+Non tutti i linguaggi sono Turning-completi. Ad esempio i domain specific language.
+\subsection{Sintassi}
 Sintassi in maniera informale:
 \begin{enumerate}
 \item 1) assegnazione di variabili $X:=3$
 \item 2) cicli while   while $X \neq Y$ do Program
 \item 3) sequenziamento di programmi  $program1; program2; program3$
 \item 4) altri costrutti come $if-then-else$ possono essere definiti a partire da questi primitivi.
-\end{enumerate}  1) assegnazione di variabili $X:=3$
+\end{enumerate} 
 NB: NON ci sono $side-effects$(tipo print(42))
 \subsection{Semantica}
-Un programma WHILE calcola una funzione paziale da $\mathbb{N}^{k} \rightarrow \mathbb{N}$ 
+Un programma WHILE calcola una funzione paziale da $\mathbb{N}^{k} \rightarrow \mathbb{N}$ \footnote{per la definizione completa confrontare $A\ programming\ approach\ to\ computability,\ Cap.2.3.$}
 \subsection{Equivalenza}
 \begin{theorem}
-Una funzione (parziale ) é computabile da un programma WHILE se e solo se é computabile da una macchina di Turing.
+Una funzione (parziale) é computabile da un programma WHILE se e solo se é computabile da una macchina di Turing.
 \end{theorem}
 \begin{proof}
 La dimostrazione e` per induzione sulla struttura di un programmma WHILE, supponiamo basato su variabili \(X_1...X_k\)
 \begin{enumerate}
 \item Caso base
 	Se il programma e` un'assegnazione di 0 ad una variabile:
-	\(begin X_j := 0 end\) la TM corrispondente e` quella che su input rimpiazza il valore di \(X_j\) con 0.
+	\(begin X_j := 0 end\) la TM corrispondente e` quella che su input:
+	\begin{center}
+	\includegraphics[scale=0.5]{while1.png}
+	\end{center}
+	rimpiazza il valore di \(X_j\) con 0.
 	Gli altri casi base sono il programma vuoto e le altre due forme di assegnazione.
 \item Caso induttivo
 	Ci sono due casi da considerare: sequenza e ciclo while.
 	\begin{itemize}
-	\item sequenza
-		per II abbiamo un programma della forma \(begin P_1;P_2;...;P_j end\)
-		dove \(P_1,...\) sono programmi per i quali abbiamo, da ipotesi induttiva, TM equivalenti M1,... rispettivamente. La TM per \( begin P_1;...;P_j end\) e` definita nel seguente modo a partire da esse, dove l'output di Mi viene dato come input di Mi+1.
-	\item ciclo while
-	Assumiamo un programma della forma \(begin while X_{i} != X_j do P end \) dove P e` un programma per il quale, da ipotesi induttiva, abbiamo un aTM M  equivalente. Possiamo costruire una TM \(M_{test}\) che rigetta l'input se il valore di \(X_{i} e X_{j}\) e` diverso, ed accetta altrimenti. La TM per il nostro programma e` costruita come segue: (snapshot da inserire)
+	\item sequenza:\\
+		per assunzione abbiamo un programma della forma \(begin\ P_1;\ ...\ ;P_j\ end\)
+		dove \(P_1,...\) sono programmi per i quali abbiamo, da ipotesi induttiva, TM equivalenti $M_1$,... rispettivamente. La TM per \( begin\ P_1;\ ...\ ;P_j\ end\) e` definita nel seguente modo a partire da esse, dove l'output di $M_i$ viene dato come input di $M_i+1$.
+		\begin{center}
+	\includegraphics[scale=0.4]{while2.png}
+	\end{center}
+	\item ciclo while:\\
+	assumiamo un programma della forma \(begin\ while X_{i}\ !=\ X_j\ do\ P\ end\) dove P e` un programma per il quale, da ipotesi induttiva, abbiamo un aTM M  equivalente. Possiamo costruire una TM \(M_{test}\) che rigetta l'input se il valore di \(X_{i} e X_{j}\) e` diverso, ed accetta altrimenti. La TM per il nostro programma e` costruita come segue: 
+	
+	%\item ciclo while: Assumiamo un programma della forma:
+	%$begin\ while\ X_i\ ≠\ X_j\ do\ P\ end$ dove P é un programma per il quale, da ipotesi induttiva, abbiamo una TM M equivalente. Possiamo costruire facilmente una TM $M_{test}$ che rigetta l’input se il valore di $X_i$ e $X_j$ é diverso, ed accetta altrimenti.
+	\begin{center}
+	\includegraphics[scale=0.4]{while3.png}
+	\end{center}
 	\end{itemize}
 \end{enumerate}
 \end{proof}
@@ -499,7 +513,7 @@ $f: \mathbb{N} \rightarrow \sum^{*}$
 \end{enumerate}
 \end{center}
 Abbiamo visto che ogni TM pu\`o essere codificata come una stringa per un alfabeto $\sum$ con $|\sum| = 2$ (es. $\sum = \{0,1\}$).\\
-Allora, l' \textbf{insieme di tutte le TM} \`ee inifinito numerabile. Anche l' \textbf{insieme di tutti i linguaggi riconoscibili} \`e infinito numerabile. Questo perch\`e, per definizione, un linguaggio \`e riconoscibile se c;\`e una TM che lo riconosce. Per la stessa ragione, l' \textbf{insieme delle funzioni} $\mathbb{N} \rightarrow \mathbb{N}\ computabili$ da una TM \`e infonoto numerabile. 
+Allora, l' \textbf{insieme di tutte le TM} \`ee inifinito numerabile. Anche l' \textbf{insieme di tutti i linguaggi riconoscibili} \`e infinito numerabile. Questo perch\`e, per definizione, un linguaggio \`e riconoscibile se c'\`e una TM che lo riconosce. Per la stessa ragione, l' \textbf{insieme delle funzioni} $\mathbb{N} \rightarrow \mathbb{N}\ computabili$ da una TM \`e infinito numerabile. 
 \section{Linguaggi sono non numerabili}
 
 %%%%%%%%%
@@ -662,6 +676,10 @@ $code(M) \in ETH \iff \not\exists$ un tiling per $\tau_{M}$
 \end{center}
 \end{enumerate}
 Tale corrispondenza riduce $ETH$ al complemento del tiling problem, cos\`i che $ETH^{-}$ si riduce al tiling problem.
+\subsubsection{Rappresentare regole di adiacenza con simboli}
+Dato un sistema di tiling, possiamo specificare il suo insieme di piastrelle e regole di adiacenza simultaneamente segnando i margini delle piastrelle.
+Consideriamo ora come trasformare una TM $M$ in un sistema di tiling appropriato $\tau_{M}$. L’idea essenziale è che file successive del tiling
+rappresentino il nastro nei passi successivi. Piastrelle speciali sono usate per tenere traccia di stato e posizione della testina correnti.
 \newpage
 \section{Teoria della complessit\`a computazionale}
 %\subsection{Una lettera di Goedel(1956)}

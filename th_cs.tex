@@ -39,19 +39,19 @@ Una macchina di Turing \`e una tupla $\langle \sum, Q,q_0,H,\delta\rangle$. Dove
 \item $H \subset Q$ \`e l'insieme degli \textbf{stati accettanti (o finali)}.
 \item $\delta$ \`e la funzione di transizione $\delta: (Q \backslash H) \times \sum \rightarrow Q \times \sum \times \{ \rightarrow, \leftarrow \} $
 \end{enumerate}
-$\delta$ esprime il programma che governa il funzionamento della TM, ed \`e una funzione totale. Possimao scrivere la definizione di $\delta$ come un insieme di quintuple.
+$\delta$ esprime il programma che governa il funzionamento della TM, ed \`e una funzione totale. Possiamo scrivere la definizione di $\delta$ come un insieme di quintuple.
 \subsection{Espressivit\`a delle macchine di Turing}
 Molto spesso un problema che vogliamo risolvere usando uno strumento di calcolo pu\`o essere espresso come un problema di decisione. Ad esempio\begin{itemize}
 \item Dato un grafo, \`e strettamente connesso?
 \item Dato un insieme di equazioni, ha una soluzione?
 \end{itemize}
 \textbf{Come fare tutto ci\`o con delle macchine di Turing?}\\
-Abbiamo visto che le TM possono calcolare funzioni di tipo $\mathbb{N}^{k} \rightarrow \mathbb{N}$, il passaggio chiave \`e codificare un probleman di decisione come la $funzione\ caratteristica$ di un $linguaggio\ formale$.
+Abbiamo visto che le TM possono calcolare funzioni di tipo $\mathbb{N}^{k} \rightarrow \mathbb{N}$, il passaggio chiave \`e codificare un problema di decisione come la $funzione\ caratteristica$ di un $linguaggio\ formale$.
 \subsection{Linguaggi formali: ripasso}
 Dato un alfabeto $\sum$ di simboli, un \textbf{linguaggio formale} \`e un sottoinsieme di $\sum^{*}$. Ad esempio:
 \begin{itemize}
 \item Alfabeto $\sum\ =\ \{1\}$
-\item Linguaggio delle stringhe di lughezza pari: $L\ =\ \{\epsilon, 11,1111,...\}$
+\item Linguaggio delle stringhe di lunghezza pari: $L\ =\ \{\epsilon, 11,1111,...\}$
 \end{itemize}
 La \textbf{funzione caratteristica} di un linguaggio $L$ \`e la funzione \begin{center}
 \begin{equation}
@@ -103,27 +103,28 @@ Un linguaggio (un problema di decisione) \`e \textbf{riconoscibile} se c'\`e una
 \begin{center}
 $Decidibile \implies Riconoscibile$
 \end{center}
+\newpage
 \section{WHILE un linguaggio di programmazione di alto livello	}
 Un linguaggio \`e Turing-completo quando il suo potere espressivo e' equivalente ad una macchina di Turing. 
 Quindi quando qualcuno progetta un nuovo linguaggio deve preoccuparsi del fatto che esso sia Turing-completo.
-Non tutti i linguaggi sono Turning-completi. Ad esempio i domain specific language.
+Non tutti i linguaggi sono Turing-completi. Ad esempio i domain specific language.
 \subsection{Sintassi}
 Sintassi in maniera informale:
 \begin{enumerate}
-\item 1) assegnazione di variabili $X:=3$
-\item 2) cicli while   while $X \neq Y$ do Program
-\item 3) sequenziamento di programmi  $program1; program2; program3$
-\item 4) altri costrutti come $if-then-else$ possono essere definiti a partire da questi primitivi.
+\item assegnazione di variabili $X:=3$
+\item cicli while   while $X \neq Y$ do Program
+\item sequenziamento di programmi  $program1; program2; program3$
+\item altri costrutti come $if-then-else$ possono essere definiti a partire da questi primitivi.
 \end{enumerate} 
 NB: NON ci sono $side-effects$(tipo print(42))
 \subsection{Semantica}
-Un programma WHILE calcola una funzione paziale da $\mathbb{N}^{k} \rightarrow \mathbb{N}$ \footnote{per la definizione completa confrontare $A\ programming\ approach\ to\ computability,\ Cap.2.3.$}
+Un programma WHILE calcola una funzione parziale da $\mathbb{N}^{k} \rightarrow \mathbb{N}$ \footnote{per la definizione completa confrontare $A\ programming\ approach\ to\ computability,\ Cap.2.3.$}
 \subsection{Equivalenza}
 \begin{theorem}
 Una funzione (parziale) é computabile da un programma WHILE se e solo se é computabile da una macchina di Turing.
 \end{theorem}
 \begin{proof}
-La dimostrazione e` per induzione sulla struttura di un programmma WHILE, supponiamo basato su variabili \(X_1...X_k\)
+La dimostrazione e` per induzione sulla struttura di un programma WHILE, supponiamo basato su variabili \(X_1...X_k\)
 \begin{enumerate}
 \item Caso base
 	Se il programma e` un'assegnazione di 0 ad una variabile:
@@ -153,7 +154,7 @@ La dimostrazione e` per induzione sulla struttura di un programmma WHILE, suppon
 	\end{itemize}
 \end{enumerate}
 \end{proof}
-
+\newpage
 \section{Macchina di Turing Universale}
 \subsection{Programmi universali} 
 Un programma universale e` un programma pensato per ricevere altri programmi come input ed eseguirli. I sistemi operativi sono esempi di programmi universali.\\
@@ -181,8 +182,8 @@ E` possibile che ci siano due o piu' TM che computino la stessa funzione, ma cod
 La UTM e` definita come una macchina di Turing con tre nastri. 
 \begin{enumerate}
 \item Nastro 1 mantiene il nastro di M in forma codificata.
-\item Nastro 2 manterra` code(M).
-\item Nastro 3 manterra` o stato corrente di M in forma codificata.
+\item Nastro 2 manterr\`a code(M).
+\item Nastro 3 manterr\`a o stato corrente di M in forma codificata.
 \end{enumerate}
 Un passo della simulazione di  M da parte della UTM funziona nel seguente modo.
 \begin{enumerate}
@@ -191,8 +192,8 @@ Un passo della simulazione di  M da parte della UTM funziona nel seguente modo.
 \item Aggiorna nastro 3 con lo stato $q_j$. Se é finale, fermati.
 \end{enumerate}
 \subsection{Considerazioni finali}
-Questa costruzione mostra l'esistenza di una macchina di Turing universale, $M_U$. Niente impedisce a $M_U$ di ricevere la sua stessa codifica code($M_U$) come parte dell'input! Questa forma di autoreferenzialita` sara` utilizzata nella prossima lezione per dimostrare che esiste un problema indecidibile.
-
+Questa costruzione mostra l'esistenza di una macchina di Turing universale, $M_U$. Niente impedisce a $M_U$ di ricevere la sua stessa codifica code($M_U$) come parte dell'input! Questa forma di autoreferenzialit\`a sar\`a utilizzata nella prossima lezione per dimostrare che esiste un problema indecidibile.
+\newpage
 \section{Cosa non possono fare le TM}
 Introduciamo il nostro primo problema indecidibile: il problema della \textbf{fermata}($halting\ problem$). Questo risultato ci informa, pi\`u in generale, sui limiti della computazione per algoritmi. Abbiamo visto che l'essere calcolabile da una procedura algoritmica implica essere calcolabile da una TM. Dunque \textbf{non} essere calcolabile da una TM implica non essere calcolabile da nessuna procedura algoritmica.
 \subsection{Ripasso: Linguaggi e TM}
@@ -252,19 +253,19 @@ $HALT$ = \{$\langle y,x \rangle \in \sum^{*}x\sum^{*}|$ y=code($M$) e $M$ ferma 
 $HALT^{-}$ = \{$\langle y,x \rangle \in \sum^{*}$x$\sum^{*}|$ y $\neq$ code($M$) $\forall$ $M$ o y=code($M$) e $M$ non ferma su x\}
 \end{center}
 \end{theorem}
-C'\`e una dimostrazione diretta, per contaddizione, ma \`e pi\`u interessante mostrare una dimostrazione pi\`u astratta. Deriva dal seguente teorema.
+C'\`e una dimostrazione diretta, per contraddizione, ma \`e pi\`u interessante mostrare una dimostrazione pi\`u astratta. Deriva dal seguente teorema.
 \begin{theorem}
 Se $HALT^{-}$ fosse riconoscibile, allora HALT sarebbe decidibile.
 \end{theorem}
 %Infatti, dal momento che HALT \`e indecidibile, se questo teorema \`e varo allora $HALT^{-}$ non pu\`o essere riconoscibile.
 \begin{proof}
-Abbiamo gi\`a visto che HALT \`e riconoscibile, diciamo da una TM $M_{HR}$. Supponiamo per assurdo che anche $HALT^{-}$ sia riconoscibile, e chiamiamo $M_{H^{-}}$ la TM che lo riconosce. Possimao ora costruire una TM $M_H$ che decide HALT come segue. Su input $\langle y,x \rangle$, simula $M_{HR}$ e $M_{H^{-}}$ in parallelo su input $\langle y,x \rangle$. Se $M_{HR}$ ferma, accetta. Se $M_{H^{-}}$ ferma, rigetta.\\
+Abbiamo gi\`a visto che HALT \`e riconoscibile, diciamo da una TM $M_{HR}$. Supponiamo per assurdo che anche $HALT^{-}$ sia riconoscibile, e chiamiamo $M_{H^{-}}$ la TM che lo riconosce. Possiamo ora costruire una TM $M_H$ che decide HALT come segue. Su input $\langle y,x \rangle$, simula $M_{HR}$ e $M_{H^{-}}$ in parallelo su input $\langle y,x \rangle$. Se $M_{HR}$ ferma, accetta. Se $M_{H^{-}}$ ferma, rigetta.\\
 \includegraphics[scale=0.4]{TM_complemento_HALT.png}\\
 Perci\`o $M_H$ decide HALT.
 \end{proof}
 Dal momento che HALT \`e indecidibile, allora $HALT^-$ non pu\`o essere riconoscibile.
 \subsection{Osservazione 1. Complemento linguaggio riconoscibile}
-La dimostrazione data non sfruttaa in alcun modo il fatto che HALT sia definito nel modo in cui \`e definito" potremmo sostituire HALT con qualsiasi problema riconoscibile, e funzionerebbe lo stesso. Abbiamo dunque il seguente teorema.
+La dimostrazione data non sfrutta in alcun modo il fatto che HALT sia definito nel modo in cui \`e definito" potremmo sostituire HALT con qualsiasi problema riconoscibile, e funzionerebbe lo stesso. Abbiamo dunque il seguente teorema.
 \begin{theorem}
 \label{th:2}
 Se $L$ e $L^{-}$ sono riconoscibili, allora $L$ \`e decidibile.
@@ -285,24 +286,24 @@ La nostra dimostrazione del fatto che $HALT^{-}$ non sia riconoscibile ha la seg
 Se potessimo riconoscere L, allora potremmo decidere L'.\\ Poich\`e non \`e decidibile, allora non possiamo riconoscere L.
 \end{center}
 Come ridurre L a L'? Vedremo come questa intuizione possa essere formalizzata in una tecnica di dimostrazione, che ci permette di ridurre problemi tra di loro al fine di dimostrarne la non calcolabilit\`a.
-
+\newpage
 \section{Mapping-reduction}
 Abbiamo dimostrato che 
 \begin{enumerate}
 \item il problema della fermata ($HALT$) \`e indecidibile.
 \item Il complemento del problema della fermata ($HALT^{-}$) non \`e riconoscibile. Questo pu\`o essere dimostrato come conseguenza del punto 1.
 \end{enumerate}
-Introduciamo dunque una tecnoca semplice e generale per dimostrare l'indecidibilit\`a/non-riconoscibilit\`a di un problema: \textbf{mapping-reduction}.\\
+Introduciamo dunque una tecnica semplice e generale per dimostrare l'indecidibilit\`a/non-riconoscibilit\`a di un problema: \textbf{mapping-reduction}.\\
 Questa tecnica ci consente di $ridurre$ le istanze di un problema a quelle di un altro problema. Nel confrontare due problemi la \textbf{decidibilit\`a/riconoscibilit\`a non \`e essenziale nel processo di prova}. Pu\`o essere derivata come una conseguenza.
 \subsection{Perch\`e}
 \includegraphics[scale=0.5]{mapred1.png}\\
-Rispetto ad un tentativo di investigare la calcolabilit\`a di $L$ o $L'$, questo approccio \`e maggiormente strutturato: ci consentriamo sulla relazione dei problemi.
+Rispetto ad un tentativo di investigare la calcolabilit\`a di $L$ o $L'$, questo approccio \`e maggiormente strutturato: ci concentriamo sulla relazione dei problemi.
 \subsection{Definizione}
 Siano $L$ e $L'$ linguaggi sull'alfabeto $\sum$, diciamo che $L'$ \`e $mapping-riducibile$ a $L$, scritto $L' \leq L$, se esiste una TM che computa la funzione (totale) $f: \sum^* \rightarrow \sum*$ tale che 
 \begin{center}
 $x \in L' \iff f(x) \in L$
 \end{center}
-Sostanzialmente, $f$ converte il problema di appartenenza per $L'$ nel problema di appartenenza per $L$. Intutivamente $L' \leq L$: $L$ \`e difficile almeno quanto $L'$.
+Sostanzialmente, $f$ converte il problema di appartenenza per $L'$ nel problema di appartenenza per $L$. Intuitivamente $L' \leq L$: $L$ \`e difficile almeno quanto $L'$.
 \subsection{Riduzione e Decidibilit\`a}
 La mapping-reducibility non parla di decidibilit\`a. \`E per\`o uno strumento efficace per mostrare che un linguaggio \`e (in)decidibile.
 \begin{theorem}
@@ -428,7 +429,7 @@ $\langle y,x \rangle \in HALT \iff f(\langle y,x \rangle) \in EQ^{-}$
 \end{center}
 Su $\langle y,x\rangle$ definiamo $f$ come segue:
 \begin{itemize}
-\item Se $\forall M. y \neq code(M)$ allora prendiamo $M'$ quialsiasi e consideriamo \\$f(\langle y, x \rangle) = \langle code(M'), code(M)\rangle$.
+\item Se $\forall M. y \neq code(M)$ allora prendiamo $M'$ qualsiasi e consideriamo \\$f(\langle y, x \rangle) = \langle code(M'), code(M)\rangle$.
 \item altrimenti $y = code(M)$ e consideriamo $f(\langle y,x \rangle) = \langle code(M_1), code(M_2) \rangle$, dove $M_1$ e $M_2$ sono definite come:
 \begin{enumerate}
 \item $M_1$ esegue $M$ su $x$ e si ferma se $M$ si ferma, altrimenti entra in un ciclo.
@@ -448,7 +449,7 @@ Da \ref{th:7} se $L' \leq L \land L'$ \`e indecidibile, allora $L$ \`e indecidib
 \begin{corollary}
 Da \ref{th:7} se $L$ \`e decidibile e $L'$ no, allora $L' \nleq L$.
 \end{corollary}
-Se $L'$ \`e decibile, la riduzione a qualche $L$ \`e di scarsa utilit\`a.
+Se $L'$ \`e decidibile, la riduzione a qualche $L$ \`e di scarsa utilit\`a.
 \begin{theorem}
 \label{th:9}
 Se $L$ \`e un linguaggio non-triviale $(L \neq \sum^{*} \land L \neq \emptyset)$, allora $\forall L'$ decidibile$.L' \leq L$.
@@ -487,14 +488,15 @@ Mettendo insieme questi risultati, abbiamo senza ulteriore lavoro una prova che 
 \item Non riconoscibile, e non il cui complemento non \`e riconoscibile (es. $EQ$).
 \end{enumerate}
 \subsection{Turing-riducibilit\`a}
-La mapping-reducibility è solo uno dei modi in cui definire il concetto di problema riducibile a un altro problema. Un altro \`e la Turing-riducibilit\`a. Un \textbf{oracolo} per il linguaggio $L$ \`e uno strumento esterno ("black box") capace di rispondere alla domanda $"x \in L?" \forall x$.\\ Un linguiaggio $L'$ \`e \textbf{Turning-riducibile} a $L$ se, dato un oracolo per $L$, possiamo decodere $L'$.
+La mapping-reducibility è solo uno dei modi in cui definire il concetto di problema riducibile a un altro problema. Un altro \`e la Turing-riducibilit\`a. Un \textbf{oracolo} per il linguaggio $L$ \`e uno strumento esterno ("black box") capace di rispondere alla domanda $"x \in L?" \forall x$.\\ Un linguaggio $L'$ \`e \textbf{Turing-riducibile} a $L$ se, dato un oracolo per $L$, possiamo decidere $L'$.
 \begin{center}
 $mapping-riducibility \implies Turing-riducibility$.
 \end{center}
 Ad esempio sappiamo che $HALT^{-} \nleq HALT$, cio\`e $HALT^{-}$ non \`e mapping-riducibile a $HALT$. MA $HALT^{-}$ \`e Turing-riducibile ad $HALT$. Infatti, se abbiamo un oracolo per la domanda $"\langle y,x \rangle \in HALT?"$, questo pu\`o essere usato per decidere se $\langle y,x \rangle \in HALT^{-}$.
+\newpage
 \section{La cardinalit\'a dei problemi irrisolvibili}
 \subsection{Obiettivo}
-Vogliamo mostrare cjhe la maggior parte dei linguaggi non sono riconoscibili (e, quindi indecidibili). Il nostro argomento consiste nel mostrare che ci sono $"molti"$ pi\`u linguaggi che TM.
+Vogliamo mostrare che la maggior parte dei linguaggi non sono riconoscibili (e, quindi indecidibili). Il nostro argomento consiste nel mostrare che ci sono $"molti"$ pi\`u linguaggi che TM.
 \subsection{Insiemi infiniti numerabili}
 Un insieme $S$ \`e \textbf{infinito numerabile} se c'\`e una funzione totale biettiva $f: \mathbb{N} \rightarrow S$.
 Ad esempio: l'insieme dei numeri dispari $D$ con la funzione $f: \mathbb{N} \rightarrow D$ definita come $f(n) = 2n - 1$.
@@ -513,7 +515,8 @@ $f: \mathbb{N} \rightarrow \sum^{*}$
 \end{enumerate}
 \end{center}
 Abbiamo visto che ogni TM pu\`o essere codificata come una stringa per un alfabeto $\sum$ con $|\sum| = 2$ (es. $\sum = \{0,1\}$).\\
-Allora, l' \textbf{insieme di tutte le TM} \`ee inifinito numerabile. Anche l' \textbf{insieme di tutti i linguaggi riconoscibili} \`e infinito numerabile. Questo perch\`e, per definizione, un linguaggio \`e riconoscibile se c'\`e una TM che lo riconosce. Per la stessa ragione, l' \textbf{insieme delle funzioni} $\mathbb{N} \rightarrow \mathbb{N}\ computabili$ da una TM \`e infinito numerabile. 
+Allora, l' \textbf{insieme di tutte le TM} \`e infinito numerabile. Anche l' \textbf{insieme di tutti i linguaggi riconoscibili} \`e infinito numerabile. Questo perch\`e, per definizione, un linguaggio \`e riconoscibile se c'\`e una TM che lo riconosce. Per la stessa ragione, l' \textbf{insieme delle funzioni} $\mathbb{N} \rightarrow \mathbb{N}\ computabili$ da una TM \`e infinito numerabile.
+\newpage
 \section{Linguaggi sono non numerabili}
 
 %%%%%%%%%
@@ -528,7 +531,7 @@ Ricorda che un linguaggio L \`e un sottoinsieme di $\sum^*$. Abbiamo gi\`a visto
 
 \end{center}
 \end{proof}
-Ciascun linguaggio su $\sum$ pu\`o essere rappresentato in questo modo. Per contaddizione, assumi che $S_{\sum}$ sia un insieme numerabile. Allora possiamo assegnare un numero naturale ai suoi elementi, cos\`i che ogni $L_i \in S_{\sum}$ appare come riga a destra.\\ \begin{center}
+Ciascun linguaggio su $\sum$ pu\`o essere rappresentato in questo modo. Per contraddizione, assumi che $S_{\sum}$ sia un insieme numerabile. Allora possiamo assegnare un numero naturale ai suoi elementi, cos\`i che ogni $L_i \in S_{\sum}$ appare come riga a destra.\\ \begin{center}
 \includegraphics[scale=0.5]{tabella_linguaggi2.png}
 \end{center}
 Davvero ogni elemento $L$ di $S_{\sum}$ compare su una riga?\\
@@ -541,12 +544,12 @@ Dato un alfabeto finito $\sum$, abbiamo visto che:
 \item l'insieme di linguaggi riconoscibili da una TM \`e infinito numerabile.
 \item l'insieme di tutti i linguaggi \`e non-numerabile.
 \end{enumerate}
-Quindi, esistono limguaggi che non sono riconoscibili da alcuna TM, ad esempio $HALT^{-}, EQ, EQ^{-}$.\\
+Quindi, esistono liguaggi che non sono riconoscibili da alcuna TM, ad esempio $HALT^{-}, EQ, EQ^{-}$.\\
 \subsubsection{Quanti linguaggi non riconoscibili ci sono?}
 La risposta deriva da un  un risultato generale.
 \begin{theorem}
 \label{th:3}
-Se $S$ \`e un insieme infinito, non-numerabile e $S'$ \`e un sottoinsieme infinito numerabile di S, allora $S \backslash S'$ non \`e un inifinito numerabile.
+Se $S$ \`e un insieme infinito, non-numerabile e $S'$ \`e un sottoinsieme infinito numerabile di S, allora $S \backslash S'$ non \`e un infinito numerabile.
 \end{theorem}
 \begin{proof}
 Assumi $S \backslash S'$ sia infinito numerabile. Allora, poich\`e i linguaggi infiniti numerabili sono chiusi per unione, $(S \backslash S') \cup S' = S$ \`e numerabile. Contraddizione!
@@ -555,7 +558,7 @@ Dal \ref{th:3} otteniamo il seguente corollario.
 \begin{corollary}
 L'insieme di linguaggi non riconoscibili non \`e infinito numerabile, allora ci sono pi\`u linguaggi non riconoscibili che riconoscibili.
 \end{corollary}
-
+\newpage
 
 \section{Teorema di Rice}
 Abbiamo visto che non possiamo decidere se una TM: \begin{enumerate}
@@ -565,23 +568,23 @@ Abbiamo visto che non possiamo decidere se una TM: \begin{enumerate}
 \end{enumerate}
 Allora, quali problemi riguardanti le TM sono decidibili?
 Per esempio: \begin{enumerate}
-\item possimo verificare quanti stati ha una macchina, e desumere quanti stati ha
+\item possiamo verificare quanti stati ha una macchina, e desumere quanti stati ha
 \item se va mai a dx o a sx
 \end{enumerate}
 Cos'altro?
 \subsection{ripasso: linguaggi}
 Una \textbf{propriet\`a di linguaggio} P \`e una funzione da un insieme di TM a ${0,1}$ (falso/vero), tale che $L_M = L_{M'}$ implica P($M$) = P($M'$).
 Questo assicura che P dipenda solo dal linguaggio descritto dalla macchina. Per esempio: "ferma in 42 step" non \`e propriet\`a del linguaggio.
-Questa propriet\`a \`e \textbf{non-triviale} se esiste una TM $M$ tale che P($M$) - 1 e una TM $M'$ tale che P($M'$)=0. Formalmente, identificheremo le TM che soddisfano la propriet\`a P con l\`insieme: \begin{center}
+Questa propriet\`a \`e \textbf{non-triviale} se esiste una TM $M$ tale che P($M$) = 1 e una TM $M'$ tale che P($M'$)=0. Formalmente, identificheremo le TM che soddisfano la propriet\`a P con l\`insieme: \begin{center}
 $\{y \in \sum^* | y=code(M)\ e\ P(M)=1\}$
 \end{center} 
 \subsection{Teorema di Rice}
 \begin{theorem}
-Se P \`e una propriet\`a di lunguaggio non triviale, allora il problema "M ha propriet\`a P" \`e indecidibile.
+Se P \`e una propriet\`a di linguaggio non triviale, allora il problema "M ha propriet\`a P" \`e indecidibile.
 \end{theorem}
 \begin{proof}
-Per contraddizione  dimostraiamo che se "$M$ ha propriet\`a P" fosse decidibile, allora il problema della fermata sarebbe decidibile.\\
-Considera una prpriet\`a P. Assumiamo P($M_{\emptyset}$) = 0. ($M_{\emptyset}$ \`e una TM che riconosce il linuaggio vuoto.) Poich\`e P \`e non-triviale, possiamo considerare una TM $M_P$ tale che P($M_P$) = 1. Fissiamo $M$ e x come parametri e costruiamo la seguente TM $M_{M,x}$:\\
+Per contraddizione  dimostriamo che se "$M$ ha propriet\`a P" fosse decidibile, allora il problema della fermata sarebbe decidibile.\\
+Considera una prpriet\`a P. Assumiamo P($M_{\emptyset}$) = 0. ($M_{\emptyset}$ \`e una TM che riconosce il linguaggio vuoto.) Poich\`e P \`e non-triviale, possiamo considerare una TM $M_P$ tale che P($M_P$) = 1. Fissiamo $M$ e x come parametri e costruiamo la seguente TM $M_{M,x}$:\\
 \includegraphics[scale=0.5]{TM_RICE1.png}\\
 \includegraphics[scale=0.45]{RICE2.png}\\
 Se potessimo decidere se $M_{M,x}$ ha la propriet\`a P, potremmo decidere il problema della fermata. Allora, $\{y|y=code(M) e P(M)=1\}$ \`e indecidibile.\\
@@ -599,14 +602,15 @@ NB: lo schema di dimostrazione \`e:
 \end{itemize}
 \subsection{Proprit\`a decidibili}
 Il Teorema di Rice riguarda propriet\`a di \textbf{linguaggio}, non propriet\`a algoritmiche; riguarda funzioni (specifiche), non programmi (implementazioni). Per esempio non possiamo usare il teorema di Rice per derivare l'indecidibilit\`a del problema della fermata (e simili).
-In geerale, ci sono tre tipi di propriet\`a riguardo le TM:
+In generale, ci sono tre tipi di propriet\`a riguardo le TM:
 \begin{enumerate}
-\item \textbf{Propriet\`a di linguaggio}: Quelle non triviali sono indifinibili (teorema di Rice).
+\item \textbf{Propriet\`a di linguaggio}: Quelle non triviali sono indecidibili (teorema di Rice).
 \item \textbf{Propriet\`a strutturali}: Queste sono tipicamente decidibili poich\`e si possono verificare staticamente sulla (codifica della) descrizione di TM. (es. $"M\ ha\ 13\ stati"$).
 \item \textbf{Propriet\`a comportamentali (o algoritmiche)}: Alcune sono decidibili, altre no, e la classificazione non \`e ovvia (es. $"M\ non\ si\ mouve\ a\ sinistra\ su\ input\ 0101"$).
 \end{enumerate}
+\newpage
 \section{Tiling}
-Mostriamo ora un esmpio di problema non calcolabile in un contesto diverso dalla teoria della computabilit\`a. L'obiettivo generale \`e quello di mostrare che la non-calcolabilit\`a \`e un fenomeno \textbf{pervasivo}, presente in diverse discipline e problemi.\\
+Mostriamo ora un esempio di problema non calcolabile in un contesto diverso dalla teoria della computabilit\`a. L'obiettivo generale \`e quello di mostrare che la non-calcolabilit\`a \`e un fenomeno \textbf{pervasivo}, presente in diverse discipline e problemi.\\
 Dato un insieme di piastrelle e di regole per metterle insieme, esiste una disposizione del piano che rispetti tali regole?
 \subsection{Sistema di Tiling}
 Un sistema di tiling \`e costituito da:
@@ -700,7 +704,7 @@ Programma della TM che decide A:
 Supponi che l'input abbia lunghezza n. Quanti passi di computazione richiede l'algoritmo?
 \subsubsection{Complessit\`a di tempo}
 Sia $M$ una TM che si ferma su tutti gli input. La sua \textbf{complessit\`a di tempo} \`e definita come la funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n)$ \`e il massimo numero di passi che $M$ impiega a fermarsi su arbitrari input di lunghezza $n$.\\
-Ad esmpio, la TM appena vista ha complessit\`a: $n + (n/2 \times N) + n$\\
+Ad esempio, la TM appena vista ha complessit\`a: $n + (n/2 \times N) + n$\\
 Quanto \`e robusto questo metodo di misurare la complessit\`a di un algoritmo?
 \begin{enumerate}
 \item Dipende dal modello di calcolo.
@@ -717,7 +721,7 @@ date funzioni $f,g: \mathbb{N} \rightarrow \mathbb{N}$ scriviamo $f(n) = O(g(n))
 
 \subsubsection{Classi di complessit\`a}
 \begin{center}
-Data una funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, definiamo \textbf{la classe di complessit\`a}(di tempo) \textbf{TIME(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in te,mpo $O(t(n))$.
+Data una funzione $f: \mathbb{N} \rightarrow \mathbb{N}$, definiamo \textbf{la classe di complessit\`a}(di tempo) \textbf{TIME(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in tempo $O(t(n))$.
 \end{center}
 Ad esempio il linguaggio A \`e nella classe $TIME(n^{2})$.
 \subsection{La classe P}
@@ -726,7 +730,7 @@ P \`e la classe dei linguaggi decidibili da una TM (deterministica, a un nastro)
 $P = \bigcup_{k} TIME(n^{k})$
 \end{center}
 \subsubsection{Perch\`e P?}
-Nella pratica dello sviluppo software, un algoritmo che lavora in tempo polinomiale viene solitamente consoderato "ragionevole".\\ Il bound polinomiale pu\`o essere in realt\`a molto alto (es. $O(n^{10})$), ma l'esperienza ci ha rivbelato che, qualora un algoritmo polinomiale \`e conosciuto, \`e solitamente possibile renderlo pi\`u efficiente.\\Un altro aspetto riguarda la codifica, la maggior parte delle codifiche per strutture come grafi, alberi, matrici, automi, ecc. come stringhe richiede tempo polinomiale, e produce una stringa di output di lunghezza polinomiale rispetto all'input.
+Nella pratica dello sviluppo software, un algoritmo che lavora in tempo polinomiale viene solitamente considerato "ragionevole".\\ Il bound polinomiale pu\`o essere in realt\`a molto alto (es. $O(n^{10})$), ma l'esperienza ci ha rivelato che, qualora un algoritmo polinomiale \`e conosciuto, \`e solitamente possibile renderlo pi\`u efficiente.\\Un altro aspetto riguarda la codifica, la maggior parte delle codifiche per strutture come grafi, alberi, matrici, automi, ecc. come stringhe richiede tempo polinomiale, e produce una stringa di output di lunghezza polinomiale rispetto all'input.
 \subsubsection{Tesi di Church-Turing rafforzata}
 Ogni modello di calcolo deterministico fisicamente realizzabile pu\`o essere simulato da una TM (deterministica, su nastro singolo) con overhead al pi\`u polinomiale.\\
 $M$ passi di computazione del modello in questione possono essere simulati dalla TM in al pi\`u $O(m^{c})$ passi per una costante $c$.\\
@@ -736,7 +740,7 @@ P \`e la classe dei linguaggi decidibili in un tempo "ragionevole". \begin{cente
 $EXP = \bigcup_{k} TIME(2^{n^{k}})$
 \end{center}
 EXP \`e la classe dei linguaggi decidibili in un tempo "irragionevole".\\
-La classe $EXP$ intutivamente \`e propria degli algoritmi che eseguono un'analisi brute-force, esplorando lo spazio di tutte le possibili soluzioni a un problema.
+La classe $EXP$ intuitivamente \`e propria degli algoritmi che eseguono un'analisi brute-force, esplorando lo spazio di tutte le possibili soluzioni a un problema.
 \subsection{Esempio: PATH}
 $PATH = \{\langle G,s,t \rangle |\ G\ grafo\ diretto\ che\ ha\ un\ percorso\ diretto\ da\ s\ a\ t.\}$
 
@@ -752,7 +756,7 @@ Su input $\langle G, s,t \rangle$:
 \item Ripeti fino a che nessuno nuovo nodo \`e contrassegnato: [scansiona tutti gli archi di G. Se trovi un arco da nodo a contrassegnato ad uno b non contrassegnato, contrassegna il nodo b.]
 \item Se t \`e contrassegnato, accetta. Se no, rigetta.
 \end{enumerate}
-Analizziamo la complessit\`a: $1$ e $3$ sono chiaramente in P. La subroutine di $2$ \`e in P ed \`e ripetuta al massimo per un numero di nodi di G, quindi $2$ nel suo compleso \`e in P. Perci\`o l'algoritmo \`e in P.
+Analizziamo la complessit\`a: $1$ e $3$ sono chiaramente in P. La subroutine di $2$ \`e in P ed \`e ripetuta al massimo per un numero di nodi di G, quindi $2$ nel suo complesso \`e in P. Perci\`o l'algoritmo \`e in P.
 \end{proof}
 
 \subsection{Una nota sulla codifica}
@@ -818,13 +822,13 @@ Nella direzione opposta, sia V un verificatore polinomiale per L. Costruiamo una
 \begin{enumerate}
 \item Gli informatici hanno cercato di dimostrare che P è diverso da NP per lungo tempo, senza successo. Questo é un indizio che il contrario (P = NP) é vero.
 \item D’altro canto, altrettante energie sono state impiegate per trovare algoritmi polinomiali per problemi NP, senza successo. É questo un indizio che P é diverso da NP? Secondo Knuth no: questa strategia potrebbe essere sbagliata, un vicolo cieco.
-\item Infatti, la dimostrazione che P = NP potrebbe essere non-costruttiva. Dato un problema in NP, un algoritmo polinomiale potrebbe esistere, ma essere incredibilmente complicato, fuori dalla portata umana. Ad esempio, potrebbe essere di complessità O(ng), dove g é il numero di Graham.
+\item Infatti, la dimostrazione che P = NP potrebbe essere non-costruttiva. Dato un problema in NP, un algoritmo polinomiale potrebbe esistere, ma essere incredibilmente complicato, fuori dalla portata umana. Ad esempio, potrebbe essere di complessità $O(n^g)$, dove g é il numero di Graham.
 \item C’è un precedente significativo per quanto sostiene Knuth: il teorema di Roberston-Seymour, il quale dimostra che un certo problema in teoria dei grafi é in P...ma non dà l’algoritmo polinomiale in sé (e non é chiaro come potremmo
 derivarlo in maniera esplicita).
 \item In altre parole, secondo Knuth, anche qualora dimostrassimo che P = NP, la dimostrazione sarebbe quasi sicuramente non-costruttiva, e di nessuna utilità pratica.
 \end{enumerate}
 Perci\`o, in conclusione, Knuth ritiene che P vs NP non sia un problema cos\`i interessante, o quantomeno \`e malposto.
-
+\newpage
 \section{Poly reduction}
 Siano $L$ e $L'$ linguaggi sull'alfabeto $\sum$ Diciamo che $L$ \`e \textbf{poly (mapping-)riducibile} a $L$, scritto $L' \leq_p L$, se esiste una TM che computa in tempo polinomiale una funzione (totale) $f: \sum^{*} \rightarrow \sum^{*}$ tale che \begin{center}
 $x \in L' \iff f(x) \in L$
@@ -850,11 +854,11 @@ f prende x e calcola se x appartiene ad L (in tempo poly) se s\`i ritorna b non 
 \end{proof}
 \textbf{Domanda}: Se $L \in NP$, $L^{-} \leq_p L$?
 \subsection{Formule e soddisfacibilit\`a}
-Una formula booleana \`e costuita a partire da variabili $x,y,z,...$, loro negazione $\lnot x, \lnot y, \lnot z,...$ (chiamati collettivamente letterali) e combinazioni di letterali tramite congiunzione e disgiunzione ($\land, \lor $). Le variabili possono ricevere valore vero (1) o falso (0), da cui deriviamo il valore di verit\`a dell'intera formula.\\
+Una formula booleana \`e costruita a partire da variabili $x,y,z,...$, loro negazione $\lnot x, \lnot y, \lnot z,...$ (chiamati collettivamente letterali) e combinazioni di letterali tramite congiunzione e disgiunzione ($\land, \lor $). Le variabili possono ricevere valore vero (1) o falso (0), da cui deriviamo il valore di verit\`a dell'intera formula.\\
 Esempio: $(\lnot x \lor y) \land (x \lor z)$.\\
 Una formula \`e \textbf{soddisfacibile} se esiste un assegnamento di valore alle sue variabili che le dia valore 1. La formula di esempio \`e soddisfacibile, come testimoniato dall'assegnamento $x=1,y=1,z=0$.
 \subsubsection{3cnf}
-Una formula booleana \`e una \textbf{clausula} se \`e una disgiunzione di variabili (positive o negate).
+Una formula booleana \`e una \textbf{clausola} se \`e una disgiunzione di variabili (positive o negate).
 \begin{center}
 $\lnot x \lor y \lor z \lor \lnot z$
 \end{center}
@@ -862,7 +866,7 @@ Una formula booleana \`e in \textbf{forma normale congiunta (cnf)} se \	e una co
 \begin{center}
 $(x \lor y) \land (\lnot z \lor z) \land (\lnot z \lor y \lor z \lor \lnot z)$
 \end{center}
-Una formula booleana \`e \textbf{3cnf} se \`e in cnf e ogni sua clausula contiene esattamente tre letterali.
+Una formula booleana \`e \textbf{3cnf} se \`e in cnf e ogni sua clausola contiene esattamente tre letterali.
 \subsubsection{3SAT e SAT}
 \begin{center}
 $SAT = \{\langle F \rangle | F\ formula\ booleana\ soddisfacibile\}$\\
@@ -871,7 +875,7 @@ $3SAT = \{\langle F \rangle | F\ formula\ booleana\ 3cnf\ soddisfacibile\}$
 Perch\`e sono importanti?\\
 \begin{enumerate}
 \item ragioni storiche.
-\item Ragioni pratiche: molti problemi informatici possono essere formulati come istanze di SAT e 3SAT, ad esmpio constraint programming.
+\item Ragioni pratiche: molti problemi informatici possono essere formulati come istanze di SAT e 3SAT, ad esempio constraint programming.
 \end{enumerate}
 \subsection{3SAT e CLIQUE}
 Dimostreremo che $3SAT \leq_p CLIQUE$. La riduzione \`e interessante perch\`e collega problemi all'apparenza molto diversi (uno sulle formule logiche e l'altro sui grafi).
@@ -890,10 +894,10 @@ $F = (a_1 \lor b_1 \lor c_1) \land (a_2 \lor b_2 \lor c_2) ...$
 \end{center}
 Definiamo $f(\langle F \rangle) = \langle G, k \rangle$, dove G \`e il seguente grafo:
 \begin{itemize}
-\item \textbf{Nodi}: G ha 3k nodi, suddivisi in k gruppi  $t_1,...t_k$ chiamati triple. L'idea \`e che ogni tripla corrisponde ad una clausula di F: perci\`o etichettiamo ciascun nodo di G con il letterale corrispondente in F.
+\item \textbf{Nodi}: G ha 3k nodi, suddivisi in k gruppi  $t_1,...t_k$ chiamati triple. L'idea \`e che ogni tripla corrisponde ad una clausola di F: perci\`o etichettiamo ciascun nodo di G con il letterale corrispondente in F.
 \item \textbf{Archi}: gli archi di G collegano tutti le coppie $(n_1, n_2)$ di nodi tra di loro, eccetto (I) se $n_1$ e $n_2$ sono nella stessa tripla, oppure (II) $n_1$ ha etichetta $x$ e $n_2$ ha etichetta $\overline{x}$ per qualche variabile $x$.
 \end{itemize}
-Dimostraimo che questa costruzione soddisfa l'equivalenza.
+Dimostriamo che questa costruzione soddisfa l'equivalenza.
 \begin{center}
 $\langle F \rangle \in 3SAT \rightarrow f(\langle F \rangle) \in CLIQUE$
 \end{center}
@@ -929,7 +933,7 @@ $F_w := F_{cell} \land F_{start} \land F_{move} \land F_{accept}$
 \end{center}
 Ricordiamo la propriet\`a che vogliamo garantire tramite la definizione di $F_w$:
 \begin{center}
-$F_w$ \`e soddisfacibile $\iff$ $\exists$ un tableau accettante ($\iff$ $\exists$ una computrazione accettante di M su w.)
+$F_w$ \`e soddisfacibile $\iff$ $\exists$ un tableau accettante ($\iff$ $\exists$ una computazione accettante di M su w.)
 \end{center}
 L'insieme di variabili che appaiono in $F_w$ \`e dato da:
 \begin{center}
@@ -979,9 +983,9 @@ Abbiamo dunque verificato che $F_w$ \`e soddisfacibibile $\iff$ $\exists$ un tab
 \item $F_{cell}$ contiene una sottoformula di lunghezza costante $\forall x_{i,j,s}$, perci\`o la sua lunghezza \`e $O(n^{2k})$.
 \item $F_{start}$ contiene una sottofrmula di lunghezza costante per ognuna delle $n^{k}$ celle nella prima riga, perci\`o la sua lunghezza \`e $O(n^{k})$.
 \item Sia $F_{move}$ che $F_{accept}$ contengono una sottofrmula di lunghezza costante per ogni cella del tableau, perci\`o la loro lunghezza \`e $O(n^{2k})$
-\item Perci\`o la lunghezza complesivadi $F_w$ \`e polinomiale: $O(n^{2k}) + O(n^k) + O(n^{2k}) + O(n^{2k}) = O(n^{2k})$
+\item Perci\`o la lunghezza complesiva di $F_w$ \`e polinomiale: $O(n^{2k}) + O(n^k) + O(n^{2k}) + O(n^{2k}) = O(n^{2k})$
 \end{enumerate}
-Ora che abbiamo appurato che generare ogni carattere di $F_w$ richiede tempo polinomiale, non \`e difficile ottenere un TM che costruisce in tempo polinomiale $F_w$ nel modo descritto, a partire dalla definiaione di M e di w.
+Ora che abbiamo appurato che generare ogni carattere di $F_w$ richiede tempo polinomiale, non \`e difficile ottenere un TM che costruisce in tempo polinomiale $F_w$ nel modo descritto, a partire dalla definizione di M e di w.
 \end{proof}
 
 \begin{corollary}
@@ -1000,15 +1004,16 @@ CLIQUE \`e NP-completo.
 Altri esempi:
 \begin{itemize}
 \item TSP
-\item olorare un grafo con k colori diversi
+\item colorare un grafo con k colori diversi
 \item vincere a battaglia navale
 \item fare mining di bitcoin in maniera ottimale
-\item Serializzabilit\`a della conologia di un database
+\item Serializzabilit\`a della cronologia di un database
 \end{itemize}
+\newpage
 \section{Complessit\`a di Spazio}
 Sia $M$ una TM che si ferma su tutti gli input. La sua \textbf{complessit\`a di spazio} \`e definita come la funzione $t: \mathbb{N} \rightarrow \mathbb{N}$, dove $t(n)$ \`e il massimo numero di celle del nastro che la testina di M vista su arbitrari input di lunghezza $n$.\\
 \begin{center}
-Data una funzione $t:\mathbb{N} \rightarrow \mathbb{N}$, definiamo la calsse di \textbf{complessit\`a } (di spazio) \textbf{SPACE(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in spazio $O(t(n))$.
+Data una funzione $t:\mathbb{N} \rightarrow \mathbb{N}$, definiamo la classe di \textbf{complessit\`a } (di spazio) \textbf{SPACE(t(n))} come la collezione di tutti i linguaggi decidibili da una TM (deterministica, a un nastro) in spazio $O(t(n))$.
 \end{center}
 In modo analogo, considerare le TM non-deterministiche ci d\`a una classe  \textbf{NSPACE(t(n))}.
 
@@ -1023,7 +1028,7 @@ Analogamente, abbiamo:
 $NPSPACE = \bigcup_k NPSPACE(n^{k})$
 \end{center}
 \subsection{(N)P e PSPACE}
-Il fatto che P sia inclusa in PSPAE \`e ovvio per definizione. \`E meno ovvio (ma verop) che NP sia inclusa in PSPACE. Dimostriamolo come corollario del seguente lemma.
+Il fatto che P sia inclusa in PSPAE \`e ovvio per definizione. \`E meno ovvio (ma vero) che NP sia inclusa in PSPACE. Dimostriamolo come corollario del seguente lemma.
 \begin{lemma}
 \label{lemma:2}
 $SAT \in PSPACE$.
@@ -1069,7 +1074,7 @@ Per costruire un tale $F_w$ costruiamo prima un tipo di formula $F_{c,c',t}$ pi\
 \begin{center}
 M pu\`o andare dalla configurazione c alla configurazione c' in al pi\`u t passi  \\$\iff$ \\ $F_{c,c',t}$ \`e un enunciato booleano vero.
 \end{center}
-Baster\`a definire $F_w$ come $F_{c_{init},c_{acc},t}$, dove $c_{init}$ \`e la configuarzione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale che M non ha pi\`u di t configurazioni possibili su input di lunghezza n. In $F_{c,c',t}$ $c$ e $c'$ saranno insiemi di tali variabili. Ciascuno codifica una configurazione (riga del tableau, vedi sopra teorema di Cook-Levin).
+Baster\`a definire $F_w$ come $F_{c_{init},c_{acc},t}$, dove $c_{init}$ \`e la configurazione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale che M non ha pi\`u di t configurazioni possibili su input di lunghezza n. In $F_{c,c',t}$ $c$ e $c'$ saranno insiemi di tali variabili. Ciascuno codifica una configurazione (riga del tableau, vedi sopra teorema di Cook-Levin).
 Costruiamo $F_{c,c',t}$ per induzione su t. Se $t=1$, abbiamo solo due casi:
 \begin{enumerate}
 \item la computazione ha 0 passi. Costruiamo un enunciato $F_1$ che esprime (nel modo visto nel teorema di Cook-Levin \ref{th:cooklevin}) che $cell[i,j]$ in $c$ ha lo stesso valore di $cell[i,j]$ in $c'$.
@@ -1077,18 +1082,18 @@ Costruiamo $F_{c,c',t}$ per induzione su t. Se $t=1$, abbiamo solo due casi:
 \begin{center}
 $F_{c,c',1}$ sar\`a definita come $F_1 \lor F_2$.
 \end{center}
-\item Se $t > 1$, un'idea potrebbe essere di definire $F_{c,c',t}$ come $\exists m_1 (F_{c,m,\frac{t}{2}} \land F_{m_1, c', \frac{t}{2}})$. Qui $\exists m_1$ abbrevia $\exists x_1,...,x_l$, dove $x_1,...,x_l$ sono le variabili che codificano la configurazione di $m_1$. Le sottoformule $F_{c,m_1,\frac{t}{2}}$ e $F_{m_1,c',\frac{t}{2}}$ sono definite per ipotesi induttiva. Il significato \`e quello giusto, ma la formula risultante ha lunghezza esponenziale in $n$. Infatti, ogni passo della costruzione induttiva di $F_{c,c',t}$ dimezza $t$, ma raddoppia la lunghezza della formula. PEr cui nel caso che ci interessa $t = 2^{dn^k}$, la lunghezza di $F_{c,c',t}$ sar\`a esponenziale in $n$. Con uso sapiente dei quantificatori otteniamo una formula della lunghezza giusta:
+\item Se $t > 1$, un'idea potrebbe essere di definire $F_{c,c',t}$ come $\exists m_1 (F_{c,m,\frac{t}{2}} \land F_{m_1, c', \frac{t}{2}})$. Qui $\exists m_1$ abbrevia $\exists x_1,...,x_l$, dove $x_1,...,x_l$ sono le variabili che codificano la configurazione di $m_1$. Le sottoformule $F_{c,m_1,\frac{t}{2}}$ e $F_{m_1,c',\frac{t}{2}}$ sono definite per ipotesi induttiva. Il significato \`e quello giusto, ma la formula risultante ha lunghezza esponenziale in $n$. Infatti, ogni passo della costruzione induttiva di $F_{c,c',t}$ dimezza $t$, ma raddoppia la lunghezza della formula. Per cui nel caso che ci interessa $t = 2^{dn^k}$, la lunghezza di $F_{c,c',t}$ sar\`a esponenziale in $n$. Con uso sapiente dei quantificatori otteniamo una formula della lunghezza giusta:
 \begin{center}
 $F_{c,c',t} := \exists m_1 \forall (c_3, c_4) \in \{(c,m_1),(m_1,c')\} F_{c_3,c_4,\frac{t}{2}}$
 \end{center}
 Qui $\forall x \in {y,z}$ \`e notazione per $\forall x ((x = y \lor y = z) \implies ...)$. Intuitivamente, la formula dice che le variabili in $c_3$ e $c_4$ possono avere lo stesso valore che le variabili in $c$ e $m_1$, oppure lo stesso che le variabili in $m_1$ e $c'$. La nuova definizione ha lo stesso significato della precedente, ma ogni passo induttivo aggiunge una parte di lunghezza $O(n^k)$ (la quantificazione su $c_3, c_4$), e vi sono $log(2^{dn^k}) = O(n^k)$ passi induttivi. La sua lunghezza \`e dunque polinomiale in n.
 \end{enumerate}
-Abbiamo cos\`i concluso la definizione di $F_{c,c',t}$ per induzione su t. Per concludere basta definire $F_w$ come $F_{c_{init}, c_{acc}, t}$ dove $c_{init}$ \`e la configurazione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale cche M non ha pi\`u di t configurazioni possibili su input di lunghezza $n$.
+Abbiamo cos\`i concluso la definizione di $F_{c,c',t}$ per induzione su t. Per concludere basta definire $F_w$ come $F_{c_{init}, c_{acc}, t}$ dove $c_{init}$ \`e la configurazione iniziale, $c_{acc}$ codifica una qualsiasi configurazione accettante, e $t = 2^{dn^k}$ per una costante $d$ tale che M non ha pi\`u di t configurazioni possibili su input di lunghezza $n$.
 \end{proof}
 \subsection{Riflessioni sul teorema}
 \begin{enumerate}
 \item Il fatto che TQBF sia PSPACE-completo ci da un’indicazione di che tipo di problemi siano in PSPACE.
-\item Il problema di trovare una strategia vincente nei giochi posizionali (scacchi, dama, Go, ...) può essere espresso mediante un’alternanza di quantificatori: per ogni mossa dell’avversario, esiste una mia mossa tale che etc.
+\item Il problema di trovare una strategia vincente nei giochi posizionali (scacchi, dama, Go, ...) può essere espresso mediante un’alternanza di quantificatori: per ogni mossa dell'avversario, esiste una mia mossa tale che etc.
 \item Non é dunque sorprendente che questa tipologia di problemi é solitamente dimostrabile essere in PSPACE attraverso la costruzione di una Poly riduzione a TQBF.
 \item Molti problemi in robotica possono essere formulati come giochi, dove l’avversario é l’ambiente in cui si muove il robot.
 \end{enumerate}
@@ -1122,7 +1127,7 @@ Rimane da dimostrare che $REACH$ lavora in spazio $O(t^{2}(n))$.\begin{itemize}
 \end{itemize}
 Come anticipato, definiamo $M'$ come la TM che su input di lunghezza $n$ esegue $REACH(c_{init}, c_{acc}, 2^{dt(n)})$ e accetta se l'output \`e ACCETTA. Da momento che $REACH(c_{init}, c_{acc}, 2^{dt(n)})$ lavora in tempo $O(t^{2}(n))$ abbiamo dimostrato che $L$ \`e in $SPACE(t^{2}(n))$.
 \end{proof}
-\`E soprendente che $PSCAPE=NPSPACE$, oppure no?
+\`E sorprendente che $PSCAPE=NPSPACE$, oppure no?
 \begin{center}
 \includegraphics[scale=0.5]{PSPACE1.png}
 \end{center}
@@ -1130,7 +1135,7 @@ Come anticipato, definiamo $M'$ come la TM che su input di lunghezza $n$ esegue 
 \begin{corollary}
 $NSPACE = PSPAPE$
 \end{corollary}
-
+\newpage
 \section{Gerarchie e problemi intrattabili}
 La nostra intuizione é che non tutte le classi di complessità di tempo e di spazio corrispondono allo stesso insieme di problemi. Più risorse computazionali sono allocate, più dovrebbe essere grande il numero di problemi che é possibile calcolare. Per esempio, una TM dovrebbe poter risolvere strettamente più problemi in tempo $n^3$ che in tempo $n^2$. I risultati che dimostrano tali inclusioni strette sono detti teoremi di gerarchia. Tali risultati hanno come conseguenza che alcuni problemi non appartengono a classi come P o PSPACE. Si tratta dunque di problemi \textbf{intrattabili}: nonostante siano decidibili, non esistono algoritmi efficienti.
 \subsection{Notazione small-O}
@@ -1199,7 +1204,7 @@ $PSPACE \subset EXPSPACE$
 Quindi i problemi EXPSPACE-completi sono \textbf{intrattabili} (non hanno algoritmi PSPACE).
 
 \subsection{Gerarchia di tempo}
-$f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n) \geq O(n \times log(n))$, \`e TIME-costruibile se possiamo calcorare in tempo $O(f(n))$ la funzione
+$f: \mathbb{N} \rightarrow \mathbb{N}$, dove $f(n) \geq O(n \times log(n))$, \`e TIME-costruibile se possiamo calcolare in tempo $O(f(n))$ la funzione
 \begin{center}
 $1^{n} \longmapsto \langle f(n) \rangle$
 \end{center}
@@ -1241,10 +1246,10 @@ Queste osservazioni hanno portato allo studio di modelli di calcolo differenti, 
 
 \section{esercitazione 1 Marzo 2023}
 \subsection{Quesito 1}
-Un problema che vogliamo risolvere usando uno strumento di calcolo puo' essere espresso come un problema di decisione. Questi problemi hanno la componente dei dati e la risposta SI/NO. Per poter risolvere questi problemi con un calcolatore e' necessario codificare un problema di decisinoe come la funzione caratteristica di un linguaggio formale.
+Un problema che vogliamo risolvere usando uno strumento di calcolo pu\`o essere espresso come un problema di decisione. Questi problemi hanno la componente dei dati e la risposta SI/NO. Per poter risolvere questi problemi con un calcolatore e' necessario codificare un problema di decisione come la funzione caratteristica di un linguaggio formale.
 
 Dato a e b dati le cui codifiche sono code(a) e code(b) $\in \sum^*$
-Le proprieta' che la codifica deve rispettare sono: 
+Le propriet\`a che la codifica deve rispettare sono: 
 \begin{enumerate}
 \item $a \ne b \ code(a) \neq code(b)$
 \item deve essere verificabile che se x $\in \sum^*$ \`e $code(a)$ per qualche $a$
